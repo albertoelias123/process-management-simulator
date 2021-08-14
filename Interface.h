@@ -1,0 +1,12 @@
+//
+// Created by pedro on 14/08/2021.
+//
+
+#ifndef PROCESS_MANAGEMENT_SIMULATOR_INTERFACE_H
+#define PROCESS_MANAGEMENT_SIMULATOR_INTERFACE_H
+
+#include "Controle.h"
+
+void usuario();
+
+#endif //PROCESS_MANAGEMENT_SIMULATOR_INTERFACE_H
