@@ -6,10 +6,10 @@
 
 
 void usuario(){
-    TipoNo *Arvore;
-    iniciaArvore(&Arvore);
+    processList list;
+    iniciaListprocess(&list);
 
     // Aqui contém as outras funçõe de interface de usuário
 
-    processControl(&Arvore);
+    processControl(&list);
 }
