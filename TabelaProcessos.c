@@ -18,11 +18,11 @@ void insereOnTabela(TabelaDeProcessos *tabela,EntradaTabela *entrada){
         printf("\nTabela cheia\n");
     }
 }
-TabelaDeProcessos *removeOfTabela(TabelaDeProcessos *tabela){//conferir depois a ideia
+TabelaDeProcessos *removeOfTabela(TabelaDeProcessos *tabela,pid_t pidProcess){//conferir depois a ideia
     TabelaDeProcessos *tabaleAux = criaTabela();
     if(tabela->qtd > 0){
         for(int i = 0;i<tabela->qtd;i++){
-            if(tabela->vetor[i].estado[0] != pronto){
+            if(tabela->vetor[i].pidProcesso == pidProcess){
                 insereOnTabela(tabaleAux,&tabela->vetor[i]);
             }
         }
