@@ -1,7 +1,5 @@
-#include "Interface.h"
+#include "pilhaEstatica.h"
+#include "filaEstatica.h"
+int main() {
 
-int main(){
-    usuario();
-    return 0;
 }
-

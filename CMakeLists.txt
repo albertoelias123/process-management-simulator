@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
-project(process_management_simulator C)
+project(estruturas C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
-include_directories(.)
-
-add_executable(process_management_simulator
-        main.c Controle.c Controle.h Processo.c Processo.h ProcessMemory.c ProcessMemory.h filaProcessos.c filaProcessos.h Interface.c Interface.h)
+add_executable(estruturas main.c filaEstatica.c filaEstatica.h pilhaEstatica.c pilhaEstatica.h Estados.c Estados.h TabelaProcessos.c TabelaProcessos.h)
