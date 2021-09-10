@@ -10,8 +10,13 @@
 #define TRUE 1
 #define FALSE 0
 
+#include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 typedef struct {
     int valor;
