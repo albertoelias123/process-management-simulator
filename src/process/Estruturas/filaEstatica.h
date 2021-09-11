@@ -9,13 +9,13 @@
 
 typedef struct{
     int inicio,fim,qtd;
-    TipoChave chave[MAXTAM];
+    int chave[MAXTAM];
 }Fila;
 
 Fila *criaFila();
 int filaEVazia(Fila *fila);
 int filaECheia(Fila *fila);
-void insereOnFila(Fila *fila,TipoChave chave);
+void insereOnFila(Fila *fila,int chave);
 void removeOfFila(Fila *fila);
 void imprimeFila(Fila *fila);
 

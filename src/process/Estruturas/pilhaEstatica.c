@@ -24,7 +24,7 @@ int pECheia(Pilha *p){
     return FALSE;
 }
 
-void insereOnPilha(Pilha *p, TipoChave chave){
+void insereOnPilha(Pilha *p, int chave){
     if(pECheia(p)){
         printf("\nPilha cheia\n");
     }
@@ -34,8 +34,8 @@ void insereOnPilha(Pilha *p, TipoChave chave){
     }
 }
 
-TipoChave removeOfPilha(Pilha *p){
-    TipoChave auxiliar;
+int removeOfPilha(Pilha *p){
+    int auxiliar;
     if(!pEVazia(p)){
         auxiliar = p->item[p->topo];
         p->topo--;
@@ -47,7 +47,7 @@ void imprimePilha(Pilha p){
     if(!pEVazia(&p)){
         int i = p.topo;
         while (i>=0){
-            printf("%d\n",p.item[i].valor);
+            printf("%d\n",p.item[i]);
             i--;
         }
     }

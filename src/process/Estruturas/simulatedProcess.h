@@ -4,19 +4,61 @@
 
 #ifndef ESTRUTURAS_SIMULATEDPROCESS_H
 #define ESTRUTURAS_SIMULATEDPROCESS_H
-#include "TabelaProcessos.h"
 
 #define TAM_VETOR_PROGRAMA 1000
 #define TAM_VETOR_MEMORIA 1000
 
+#include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+
+#define TRUE 1
+#define FALSE 0
+
+
+typedef enum{
+    bloqueado,pronto,execucao
+}type;
+
 typedef struct{
-    char comando;//a
-    int refMem;//0
-    int valor;//20
+
+    int valor;
+    int posicao;
+
+}estruturaMem;
+
+typedef struct{
+    char comando;
+
+    union{
+        int refMem;
+    }D;
+    union{
+        int valor;
+    }N;
+
+    union{
+        struct{
+            int refMem;
+            int valor;
+        }valores;
+    }operation;
+
+    union{
+        int valor;
+    }F;
+    union{
+        char *file;
+    }R;
+
 }instrucao;
 
 typedef struct{
-    int memory[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
+    estruturaMem *memory[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
     int memUsed;//MAXTAM == 2
 }memProcess;
 
@@ -31,6 +73,7 @@ typedef struct{
     int timeStart;
     int timeCpuUsed;
     int priority;
+    int qtdInstructions;
 }process;
 
 
@@ -42,10 +85,15 @@ typedef struct{
 
 //ao final vc pega o processo da CPU e salva na tabela de processos
 
+
+void inicializaProcess(process *processo);
 memProcess *createMemory();
 int memFull(memProcess *mem);
 int memEmpty(memProcess *mem);
 void insereOnMemory(memProcess *mem,int valor,int posicao);
+void imprimeMem(memProcess *mem);
+void processReader(process *processo,char *filename);
+void imprimeProcesso(process *processo);
 
 
 #endif //ESTRUTURAS_SIMULATEDPROCESS_H

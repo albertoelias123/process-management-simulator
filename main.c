@@ -14,8 +14,6 @@ int main(){
         printf("pipeMain Criado c/ sucesso\n");
     }
     /* ///////////////////////////////////////////////////////////////// */
-//    setupControl(&pControl, pipeMain);
-//    setupManager(&pManager, pipeMain);
 
     if((pidMain = fork()) < 0){
         perror("fork");
@@ -23,13 +21,13 @@ int main(){
     }
 
     if(pidMain > 0){
-        // Processo Control
+//         Processo Control
         setupControl(&pControl, pipeMain);
 
         loopControl(&pControl);
     }
     else{
-        // Processo Manager
+//         Processo Manager
         setupManager(&pManager, pipeMain);
 
         loopManager(&pManager);

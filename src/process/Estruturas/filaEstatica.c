@@ -23,7 +23,7 @@ int filaECheia(Fila *fila){
     }
     return FALSE;
 }
-void insereOnFila(Fila *fila,TipoChave chave){
+void insereOnFila(Fila *fila,int chave){
     if(filaEVazia(fila)){
         fila->chave[fila->fim++] = chave;
         fila->qtd++;
@@ -49,6 +49,6 @@ void removeOfFila(Fila *fila){
 }
 void imprimeFila(Fila *fila){
     for(int i = fila->inicio;i<fila->fim;i++){
-        printf("%d\n",fila->chave[i].valor);
+        printf("%d\n",fila->chave[i]);
     }
 }

@@ -3,6 +3,7 @@
 //
 
 #include "CPU.h"
+
 void executa(CPU *cpu){//chama o sub o sum, carrega e salva
 
 }
@@ -14,9 +15,9 @@ void salva(int *refMem,int position,registrador *reg){
 
 }
 
-void sum(memProcess *mem,int valor,int posicao){
-    if(posicao < TAM_VETOR_MEMORIA) {
-        mem->memory[posicao] += valor;
+void sum(registrador *reg,int valor,int posicao){
+    if(posicao < TAM_REGISTRADOR) {
+        //tratar a questão do registrador
     }
     else{
         printf("--------------------------");
@@ -24,9 +25,9 @@ void sum(memProcess *mem,int valor,int posicao){
         printf("--------------------------");
     }
 }
-void sub(memProcess *mem,int valor,int posicao){
-    if(posicao < TAM_VETOR_MEMORIA) {
-        mem->memory[posicao] -= valor;
+void sub(registrador *reg,int valor,int posicao){
+    if(posicao < TAM_REGISTRADOR) {
+        //tratar a questao do registrador
     }
     else{
         printf("--------------------------");

@@ -18,20 +18,15 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-typedef struct {
-    int valor;
-    //outras variaveis
-}TipoChave;
-
 typedef struct{
-    TipoChave item[MAXTAM];
+    int item[MAXTAM];
     int topo;
 }Pilha;
 
 Pilha *criaPilha();
 int pEVazia(Pilha *p);
 int pECheia(Pilha *p);
-void insereOnPilha(Pilha *p, TipoChave chave);
+void insereOnPilha(Pilha *p, int chave);
 void imprimePilha(Pilha p);
-TipoChave removeOfPilha(Pilha *p);
+int removeOfPilha(Pilha *p);
 #endif //ESTRUTURAS_PILHAESTATICA_H

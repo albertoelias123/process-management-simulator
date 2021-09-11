@@ -5,7 +5,7 @@
 #ifndef ESTRUTURAS_CPU_H
 #define ESTRUTURAS_CPU_H
 
-#include "TabelaProcessos.h"
+#include "simulatedProcess.h"
 
 #define TAM_REGISTRADOR 2
 //1 2 3 4 5
@@ -39,6 +39,7 @@ typedef struct{
 
 typedef struct{
     process processoExecucao;
+    registrador reg[TAM_REGISTRADOR];
     int timeSlice;//fatia de tempo do processo em execução na CPU
     int timeUsed; //tempo usado do timeSlice
 }CPU;

@@ -5,6 +5,8 @@
 #ifndef FROMZERO_MANAGER_H
 #define FROMZERO_MANAGER_H
 
+#include "Estruturas/TabelaProcessos.h"
+#include "Estruturas/filaEstatica.h"
 #include "Estruturas/CPU.h"
 
 //#define _DEBUG
@@ -20,11 +22,11 @@ typedef struct{
 
 
     int time;
-    TabelaDeProcessos tabela;
-    EstadoPronto estadoPronto;
-    EstadoBloqueado estadoBloqueado;
-    EstadoExecucao estadoExecucao;
-    CPU cpu;
+    TabelaDeProcessos *tabela;
+    Fila *estadoPronto;
+    Fila *estadoBloqueado;
+    Fila *estadoExecucao;
+    CPU *cpu;
 
 }manager;
 
@@ -33,5 +35,7 @@ typedef struct{
 
 void loopManager(manager *pManager);
 void setupManager(manager* pManager, int* pipe);
+void comandL(manager *pManager);
+void imprimeManager(); // fazer os imprime tudo
 
 #endif //FROMZERO_MANAGER_H
