@@ -1,26 +1,30 @@
 #include "src/process/control.h"
 
 int main(){
-    process process1;
+    process process1,process2,process3;
     manager *pManager = (manager*) malloc(sizeof(manager));
-    processReader(&process1,"instrucoes.txt",1,1);
-//    imprimeProcesso(&process1);
+    process1 = *criaProcesso(pManager,"processo0",0,0);
+    process2 = *criaProcesso(pManager,"processo0",1,0);
+    process3 = *criaProcesso(pManager,"processo0",2,0);
     pManager->estadoBloqueado = criaFila();
     pManager->estadoExecucao = (int*) malloc(sizeof (int));
-    *pManager->estadoExecucao = 0;
+    process1.estado = execucao;
     pManager->estadoPronto = criaFila();
     pManager->cpu = criaCPU();
     pManager->tabela = criaTabela();
 
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+    *pManager->estadoExecucao = insereOnTabela(pManager->tabela,&process1);
+    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process2));
+    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process3));
+//    comandL(pManager);
+//    comandL(pManager);
+//    comandL(pManager);
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
     pManager->cpu->processoExecucao = process1;
     pManager->cpu->timeUsed = 0;
     pManager->cpu->timeSlice = 0;
@@ -31,6 +35,8 @@ int main(){
     pManager->cpu->reg[1].refMem = 1;
     pManager->cpu->reg[1].valor = 10;
     imprimeManager(pManager);
+//    comandU(pManager);
+//    imprimeManager(pManager);
 //    imprimeFila(pManager->estadoBloqueado);
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));

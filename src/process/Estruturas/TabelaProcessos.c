@@ -12,6 +12,16 @@ TabelaDeProcessos * criaTabela(){
     }
     return tabela;
 }
+void alteraEstado(TabelaDeProcessos *tabela,int indice){
+    if(0 <= indice && indice < TAM_VETOR_TABELA_POCESSOS) {
+        tabela->processos[indice]->estado = pronto;
+    }
+    else {
+        printf("\n----------------------------\n");
+        printf("Indice nao existente na tabela");
+        printf("\n----------------------------\n");
+    }
+}
 void imprimeTabela(TabelaDeProcessos *tabela){
     printf("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| Tabela de processos ||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("\t ID\t\t\t  State\t\t\t Time CPU used\t\t\t Nº instructions\t\t\t Time start\t\t\t  memory used");

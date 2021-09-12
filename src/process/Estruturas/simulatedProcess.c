@@ -148,7 +148,7 @@ void imprimeProcesso(process *processo){
         printf("\t\tEm execucao\t");
     }
     else if(processo->estado == pronto){
-        printf("\t\tPronto para execucao\t");
+        printf("\t\t  Pronto\t");
     }
     printf("\t\t[%d] \t",processo->timeCpuUsed);
     printf("\t\t\t\t [%d] \t",processo->qtdInstructions);

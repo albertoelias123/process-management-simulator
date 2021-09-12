@@ -34,15 +34,18 @@ void insereOnFila(Fila *fila,int chave){
         }
     }
 }
-void removeOfFila(Fila *fila){
+int removeOfFila(Fila *fila){
     if(!filaEVazia(fila)){
+        int inicio = fila->chave[0];
         for (int i = 0; i < fila->fim-1; ++i) {
             fila->chave[i] = fila->chave[i+1];
         }
         fila->fim--;
+        return inicio;
     }
     else{
         printf("\nFila vazia\n");
+        return -1;
     }
 }
 void imprimeFila(Fila *fila){

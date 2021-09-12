@@ -4,12 +4,30 @@
 
 #include "manager.h"
 void comandU(manager *pManager){
-
+    //executa a proxima instrução do processo simulado em execucao
+    executa(pManager->cpu);
+    //incrementa o PC , execeto para instruções F ou R
+    if(pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'F' &&
+    pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'R'){
+        pManager->tabela->processos[*pManager->estadoExecucao]->PC++;
+    }
+    pManager->time++;
+    //faz o escalonamento (pode envolver troca de contexto)
 }
 void comandL(manager *pManager){
-
+    int indice = removeOfFila(pManager->estadoBloqueado);
+    insereOnFila(pManager->estadoPronto,indice);
+    alteraEstado(pManager->tabela,indice);
 }
 
+process *criaProcesso(manager *pManager,char *fileName,int pid,int ppid){
+    process *process1 = (process*) malloc(sizeof(process));
+    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
+    strcpy(newStr,fileName);
+    strcat(newStr,".txt");
+    processReader(process1,newStr,pid,ppid);
+    return process1;
+}
 void setupManager(manager* pManager, int* pipe){
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
@@ -20,13 +38,12 @@ void setupManager(manager* pManager, int* pipe){
     pManager->cpu = criaCPU();
     pManager->time = 0;
 
-    //criar o priemeiro processo simulado
-    process *process1 = (process*) malloc(sizeof(process));
-    processReader(process1,"instrucoes.txt",1,1);
-
+    //criar o primeiro processo simulado
+    process *processo0 = criaProcesso(pManager,"processo0",0,0);
+    processo0->estado = execucao;
     //inserindo o primeiro processo na tabela de processos e na fila bloqueada
-    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,process1));
-
+//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,processo0));
+    *pManager->estadoExecucao = insereOnTabela(pManager->tabela,processo0);
     //depois imprimir o q esta acontecendo
 //    imprimeTesteProcesso(&process1);
 

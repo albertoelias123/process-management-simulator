@@ -16,7 +16,7 @@ Fila *criaFila();
 int filaEVazia(Fila *fila);
 int filaECheia(Fila *fila);
 void insereOnFila(Fila *fila,int chave);
-void removeOfFila(Fila *fila);
+int removeOfFila(Fila *fila);
 void imprimeFila(Fila *fila);
 
 #endif //ESTRUTURAS_FILAESTATICA_H

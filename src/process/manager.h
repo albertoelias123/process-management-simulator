@@ -37,6 +37,8 @@ typedef struct{
 void loopManager(manager *pManager);
 void setupManager(manager* pManager, int* pipe);
 void comandL(manager *pManager);
+void comandU(manager *pManager);
+process *criaProcesso(manager *pManager,char *fileName,int pid,int ppid);
 void imprimeManager(manager *pManager); // fazer os imprime tudo
 
 #endif //FROMZERO_MANAGER_H
