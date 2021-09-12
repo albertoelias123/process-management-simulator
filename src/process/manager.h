@@ -28,6 +28,7 @@ typedef struct{
     Fila *estadoExecucao;
     CPU *cpu;
 
+    int pidAutoIncrement;
 }manager;
 
 
@@ -36,6 +37,6 @@ typedef struct{
 void loopManager(manager *pManager);
 void setupManager(manager* pManager, int* pipe);
 void comandL(manager *pManager);
-void imprimeManager(); // fazer os imprime tudo
+void imprimeManager(manager *pManager); // fazer os imprime tudo
 
 #endif //FROMZERO_MANAGER_H

@@ -76,7 +76,6 @@ typedef struct{
     int qtdInstructions;
 }process;
 
-
 //troca de contexto envolve copiar o estado do processo recém escalonado da tabela de processos
 //para a CPU
 
@@ -86,13 +85,14 @@ typedef struct{
 //ao final vc pega o processo da CPU e salva na tabela de processos
 
 
-void inicializaProcess(process *processo);
+void inicializaProcess(process *processo, int pid, int ppid);
 memProcess *createMemory();
 int memFull(memProcess *mem);
 int memEmpty(memProcess *mem);
 void insereOnMemory(memProcess *mem,int valor,int posicao);
 void imprimeMem(memProcess *mem);
-void processReader(process *processo,char *filename);
+void processReader(process *processo, char *filename, int pid, int ppid);
+void imprimeTesteProcesso(process *processo);
 void imprimeProcesso(process *processo);
 
 

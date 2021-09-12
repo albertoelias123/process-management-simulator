@@ -44,11 +44,15 @@ typedef struct{
     int timeUsed; //tempo usado do timeSlice
 }CPU;
 
+
+CPU *criaCPU();
 void executa(CPU *cpu);
 void sum(registrador *reg,int valor,int posicao);
 void sub(registrador *reg,int valor,int posicao);
 void carrega(int *refMem,int position,registrador *reg);
 void salva(int *refMem,int position,registrador *reg);
+void printCPU(CPU *cpu);
+void printReg(registrador *reg);
 
 
 

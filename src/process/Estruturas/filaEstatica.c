@@ -6,19 +6,17 @@
 
 Fila *criaFila(){
     Fila *f = (Fila*) malloc(sizeof(Fila));
-    f->inicio = 0;
     f->fim = 0;
-    f->qtd = 0;
     return f;
 }
 int filaEVazia(Fila *fila){
-    if(fila->qtd == 0){
+    if(fila->fim == 0){
         return TRUE;
     }
     return FALSE;
 }
 int filaECheia(Fila *fila){
-    if(fila->qtd == MAXTAM-1){
+    if(fila->fim == MAXTAM-1){
         return TRUE;
     }
     return FALSE;
@@ -26,12 +24,10 @@ int filaECheia(Fila *fila){
 void insereOnFila(Fila *fila,int chave){
     if(filaEVazia(fila)){
         fila->chave[fila->fim++] = chave;
-        fila->qtd++;
     }
     else{
         if(!filaECheia(fila)) {
             fila->chave[fila->fim++] = chave;
-            fila->qtd++;
         }
         else{
             printf("\nFila cheia\n");
@@ -40,15 +36,20 @@ void insereOnFila(Fila *fila,int chave){
 }
 void removeOfFila(Fila *fila){
     if(!filaEVazia(fila)){
-        fila->qtd--;
-        fila->inicio++;
+        for (int i = 0; i < fila->fim-1; ++i) {
+            fila->chave[i] = fila->chave[i+1];
+        }
+        fila->fim--;
     }
     else{
         printf("\nFila vazia\n");
     }
 }
 void imprimeFila(Fila *fila){
-    for(int i = fila->inicio;i<fila->fim;i++){
-        printf("%d\n",fila->chave[i]);
+    for(int i = 0;i<fila->fim;i++){
+        if(i + 1 < fila->fim)
+            printf("%d | ",fila->chave[i]);
+        else
+            printf("%d",fila->chave[i]);
     }
 }

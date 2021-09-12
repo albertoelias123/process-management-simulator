@@ -4,6 +4,14 @@
 
 #include "CPU.h"
 
+CPU *criaCPU(){
+    CPU *cpu = (CPU*) malloc(sizeof(CPU));
+    for(int i = 0;i<TAM_REGISTRADOR;i++){
+        cpu->reg[i].state = naoUsando;
+    }
+    return cpu;
+}
+
 void executa(CPU *cpu){//chama o sub o sum, carrega e salva
 
 }
@@ -34,4 +42,17 @@ void sub(registrador *reg,int valor,int posicao){
         printf("\nPosicao inexistente\n");
         printf("--------------------------");
     }
+}
+
+void printCPU(CPU *cpu){
+    // pid processo  time slice   time used   registradores
+}
+
+void printReg(registrador *reg){
+    //Estado (X) não usando
+    //Estado usando   valor  refmem
+    if(reg->state == naoUsando)
+        printf("(X)");
+    else
+        printf("[%d | %d]",reg->valor,reg->refMem);
 }

@@ -8,23 +8,24 @@ void comandL(manager *pManager){
 }
 
 void setupManager(manager* pManager, int* pipe){
-    //criar o priemeiro processo simulado
-    process *process1 = (process*) malloc(sizeof(process));
-    processReader(process1,"instrucoes.txt");
-
+    //inicialização do processo gerenciador de processos
+    pManager->pidAutoIncrement = 0;
     pManager->estadoBloqueado = criaFila();
     pManager->estadoExecucao = criaFila();
     pManager->estadoPronto = criaFila();
-
     pManager->tabela = criaTabela();
+    pManager->cpu = criaCPU();
+    pManager->time = 0;
 
+    //criar o priemeiro processo simulado
+    process *process1 = (process*) malloc(sizeof(process));
+    processReader(process1,"instrucoes.txt",1,1);
+
+    //inserindo o primeiro processo na tabela de processos e na fila bloqueada
     insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,process1));
 
-    //inicializar time e CPU
-
-
     //depois imprimir o q esta acontecendo
-//    imprimeProcesso(&process1);
+//    imprimeTesteProcesso(&process1);
 
     //começar a fazer a operação L
 
@@ -50,4 +51,7 @@ void loopManager(manager *pManager){
     free(comando);
     Debug("\tFIM Manager\n");
     exit(EXIT_SUCCESS);
+}
+void imprimeManager(manager *pManager){
+
 }

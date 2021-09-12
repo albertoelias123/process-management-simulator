@@ -8,7 +8,7 @@
 
 
 typedef struct{
-    int inicio,fim,qtd;
+    int fim;
     int chave[MAXTAM];
 }Fila;
 
