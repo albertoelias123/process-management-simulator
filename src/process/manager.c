@@ -6,7 +6,7 @@
 void comandU(manager *pManager){
     //executa a proxima instrução do processo simulado em execucao
     executa(pManager->cpu);
-    //incrementa o PC , execeto para instruções F ou R
+    //incrementa o PC , exceto para instruções F ou R
     if(pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'F' &&
     pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'R'){
         pManager->tabela->processos[*pManager->estadoExecucao]->PC++;

@@ -6,6 +6,7 @@
 #define FROMZERO_CONTROL_H
 
 #include "manager.h"
+#include "schedulling.h"
 
 
 typedef struct control_ {

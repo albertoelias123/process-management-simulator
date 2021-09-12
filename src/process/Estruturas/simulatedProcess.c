@@ -153,7 +153,7 @@ void imprimeProcesso(process *processo){
     printf("\t\t[%d] \t",processo->timeCpuUsed);
     printf("\t\t\t\t [%d] \t",processo->qtdInstructions);
     printf("\t\t\t\t\t[%d]\t",processo->timeStart);
-    printf("\t\t\t\t[%.2f %] \t",(float)(processo->memory.memUsed * 100)/TAM_VETOR_MEMORIA);
+    printf("\t\t\t\t[%.2f %%] \t",(float)(processo->memory.memUsed * 100)/TAM_VETOR_MEMORIA);
 }
 
 

@@ -35,6 +35,24 @@ int main(){
     pManager->cpu->reg[1].refMem = 1;
     pManager->cpu->reg[1].valor = 10;
     imprimeManager(pManager);
+    printf("\n Prioridade: %d \n",pManager->cpu->processoExecucao.priority);
+
+    prioritySchedulling(pManager,"B",1);
+    pManager->cpu->processoExecucao.timeCpuUsed++;
+    imprimeManager(pManager);
+
+    prioritySchedulling(pManager,"B",1);
+    imprimeManager(pManager);
+    pManager->cpu->processoExecucao.timeCpuUsed++;
+
+    printf("\n Prioridade: %d \n",pManager->cpu->processoExecucao.priority);
+
+    pManager->cpu->processoExecucao.timeCpuUsed++;
+    pManager->cpu->processoExecucao.timeCpuUsed++;
+    pManager->cpu->processoExecucao.timeCpuUsed++;
+    prioritySchedulling(pManager,"B",1);
+    imprimeManager(pManager);
+
 //    comandU(pManager);
 //    imprimeManager(pManager);
 //    imprimeFila(pManager->estadoBloqueado);
