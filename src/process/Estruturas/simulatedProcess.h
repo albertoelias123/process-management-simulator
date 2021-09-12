@@ -19,6 +19,8 @@
 #define TRUE 1
 #define FALSE 0
 
+//memcpy() // copia de uma parte da memoria para outra
+
 
 typedef enum{
     bloqueado,pronto,execucao

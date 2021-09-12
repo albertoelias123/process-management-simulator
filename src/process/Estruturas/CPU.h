@@ -8,6 +8,7 @@
 #include "simulatedProcess.h"
 
 #define TAM_REGISTRADOR 4
+
 //1 2 3 4 5
 // a 0 10
 // a 0 20
@@ -49,7 +50,7 @@ CPU *criaCPU();
 void executa(CPU *cpu);
 void sum(registrador *reg,int valor,int posicao);
 void sub(registrador *reg,int valor,int posicao);
-void carrega(int *refMem,int position,registrador *reg);
+void carrega(memProcess *refMem,int position,registrador *reg);
 void salva(int *refMem,int position,registrador *reg);
 void printCPU(CPU *cpu);
 void printReg(registrador *reg);

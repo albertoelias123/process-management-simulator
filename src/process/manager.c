@@ -3,7 +3,13 @@
 //
 
 #include "manager.h"
+void timeIncrement(manager *pManager){
+    pManager->tabela->processos[*pManager->estadoExecucao]->timeCpuUsed++;
+    pManager->cpu->timeUsed++;
+    pManager->time++;
+}
 void comandU(manager *pManager){
+    //faz o escalonamento (pode envolver troca de contexto)
     //executa a proxima instrução do processo simulado em execucao
     executa(pManager->cpu);
     //incrementa o PC , execeto para instruções F ou R
@@ -11,8 +17,7 @@ void comandU(manager *pManager){
     pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'R'){
         pManager->tabela->processos[*pManager->estadoExecucao]->PC++;
     }
-    pManager->time++;
-    //faz o escalonamento (pode envolver troca de contexto)
+    timeIncrement(pManager);
 }
 void comandL(manager *pManager){
     int indice = removeOfFila(pManager->estadoBloqueado);
