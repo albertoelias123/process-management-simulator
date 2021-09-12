@@ -29,7 +29,7 @@ int main(){
     pManager->cpu->reg[0].valor = 100;
     pManager->cpu->reg[1].refMem = 1;
     pManager->cpu->reg[1].valor = 10;
-//    imprimeFila(pManager->estadoBloqueado);
+    //imprimeFila(pManager->estadoBloqueado);
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
     printCPU(pManager->cpu);

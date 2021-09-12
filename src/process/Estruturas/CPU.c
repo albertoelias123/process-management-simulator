@@ -47,13 +47,12 @@ void sub(registrador *reg,int valor,int posicao){
 void printCPU(CPU *cpu){
     // pid processo  time slice   time used   registradores
     printf("\n|||||||||||||||||||||||||||||||||| CPU |||||||||||||||||||||||||||||||||||||||\n");
-    printf("Process execution ::: pid = %d \t time slice ::: %d \t time used ::: %d\n",cpu->processoExecucao.pid,cpu->timeSlice,cpu->timeUsed);
-    printf(":::: Registers ::::\n");
-    printf(" ID    state\n");
+    printf("Pid = %d | Time Slice %d | Time Used %d | ",cpu->processoExecucao.pid,cpu->timeSlice,cpu->timeUsed);
     for(int i = 0;i<TAM_REGISTRADOR;i++){
-        printf("[%d] ",i);
+        printf("Reg %d->", i+1);
         printReg(&cpu->reg[i]);
-        printf(" \n");
+        if(i+1 < TAM_REGISTRADOR)
+            printf(" | ");
     }
 }
 
@@ -61,7 +60,7 @@ void printReg(registrador *reg){
     //Estado (X) não usando
     //Estado usando   valor  refmem
     if(reg->state == naoUsando)
-        printf("(X)");
+        printf("X");
     else
-        printf("[%d | %d]",reg->valor,reg->refMem);
+        printf("[%d]=%d",reg->refMem,reg->valor);
 }
