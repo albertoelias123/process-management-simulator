@@ -25,7 +25,7 @@ typedef struct{
     TabelaDeProcessos *tabela;
     Fila *estadoPronto;
     Fila *estadoBloqueado;
-    Fila *estadoExecucao;
+    int *estadoExecucao;
     CPU *cpu;
 
     int pidAutoIncrement;

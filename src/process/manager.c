@@ -3,6 +3,9 @@
 //
 
 #include "manager.h"
+void comandU(manager *pManager){
+
+}
 void comandL(manager *pManager){
 
 }
@@ -11,7 +14,7 @@ void setupManager(manager* pManager, int* pipe){
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
     pManager->estadoBloqueado = criaFila();
-    pManager->estadoExecucao = criaFila();
+    pManager->estadoExecucao = (int*) malloc(sizeof(int));
     pManager->estadoPronto = criaFila();
     pManager->tabela = criaTabela();
     pManager->cpu = criaCPU();
@@ -53,5 +56,16 @@ void loopManager(manager *pManager){
     exit(EXIT_SUCCESS);
 }
 void imprimeManager(manager *pManager){
-
+    printf("\n[Sistema]\n");
+    printf("Total time used: %d\n",pManager->time);
+    printCPU(pManager->cpu);
+    printf("\n\n||||||||||||||||||||| indices processos bloqueados ||||||||||||||||||||| \n");
+    printf("\t");
+    imprimeFila(pManager->estadoBloqueado);
+    printf("\n||||||||||||||||||||| indices processos prontos ||||||||||||||||||||| \n");
+    printf("\t");
+    imprimeFila(pManager->estadoPronto);
+    printf("\n||||||||||||||||||||| Indice processo em execucao ");
+    printf("[%d] |||||||||||||||||||||\n\n",*pManager->estadoExecucao);
+    imprimeTabela(pManager->tabela);
 }
