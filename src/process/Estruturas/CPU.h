@@ -7,7 +7,7 @@
 
 #include "simulatedProcess.h"
 
-#define TAM_REGISTRADOR 2
+#define TAM_REGISTRADOR 4
 //1 2 3 4 5
 // a 0 10
 // a 0 20
