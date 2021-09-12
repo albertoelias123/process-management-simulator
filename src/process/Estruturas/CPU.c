@@ -46,13 +46,14 @@ void sub(registrador *reg,int valor,int posicao){
 
 void printCPU(CPU *cpu){
     // pid processo  time slice   time used   registradores
-    printf("\n|||||||||||||||||||||||||| CPU ||||||||||||||||||||||||||\n");
+    printf("\n|||||||||||||||||||||||||||||||||| CPU |||||||||||||||||||||||||||||||||||||||\n");
     printf("Process execution ::: pid = %d \t time slice ::: %d \t time used ::: %d\n",cpu->processoExecucao.pid,cpu->timeSlice,cpu->timeUsed);
-    printf(":::: Registers ::::\t");
+    printf(":::: Registers ::::\n");
+    printf(" ID    state\n");
     for(int i = 0;i<TAM_REGISTRADOR;i++){
-        printf("[%d]\t",i);
+        printf("[%d] ",i);
         printReg(&cpu->reg[i]);
-        printf(" ");
+        printf(" \n");
     }
 }
 

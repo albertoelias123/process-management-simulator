@@ -8,7 +8,7 @@ int main(){
     pManager->estadoBloqueado = criaFila();
     pManager->estadoExecucao = criaFila();
     pManager->estadoPronto = criaFila();
-
+    pManager->cpu = criaCPU();
     pManager->tabela = criaTabela();
 
     insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
@@ -23,6 +23,12 @@ int main(){
     pManager->cpu->processoExecucao = process1;
     pManager->cpu->timeUsed = 0;
     pManager->cpu->timeSlice = 0;
+    pManager->cpu->reg[0].state = usando;
+    pManager->cpu->reg[1].state = usando;
+    pManager->cpu->reg[0].refMem = 0;
+    pManager->cpu->reg[0].valor = 100;
+    pManager->cpu->reg[1].refMem = 1;
+    pManager->cpu->reg[1].valor = 10;
 //    imprimeFila(pManager->estadoBloqueado);
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
