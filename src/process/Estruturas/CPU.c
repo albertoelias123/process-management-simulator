@@ -32,9 +32,18 @@ void executa(CPU *cpu){// falta as operacoes de D , N , F  R
     else if(cpu->processoExecucao.vetorPrograma[cpu->processoExecucao.PC].comando == 'R'){
         //fazer operação R
     }
+<<<<<<< HEAD
 
     cpu->timeSlice++;
     cpu->timeUsed++;
+||||||| merged common ancestors
+    *processoPronto = cpu->processoExecucao;//salvamento
+=======
+    *processoPronto = cpu->processoExecucao;//salvamento
+
+    cpu->timeSlice++;
+    cpu->timeUsed++;
+>>>>>>> 3911da6bc25e4a5f195f439c920a04b05dfcbc1a
 }
 
 void sum(process *processOnCpu){
