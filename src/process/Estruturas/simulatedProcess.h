@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
+
 #define TRUE 1
 #define FALSE 0
 
@@ -75,7 +76,7 @@ typedef struct{
     int timeStart;
     int timeCpuUsed;
     int priority;
-    int qtdInstructions;
+    int qtdInstructions;    
 }process;
 
 //troca de contexto envolve copiar o estado do processo recém escalonado da tabela de processos

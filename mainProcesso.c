@@ -34,31 +34,5 @@ int main(){
     imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
     comandU(pManager);
     imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
-//    imprimeManager(pManager);
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process2));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process3));
-//    comandL(pManager);
-//    comandL(pManager);
-//    comandL(pManager);
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-
-//    process1.PC = 3;
-//    executa(pManager->cpu,&process1);
-//    process1.PC = 5;
-//    executa(pManager->cpu,&process1);
-
-//    imprimeManager(pManager);
-//    comandU(pManager);
-//    imprimeManager(pManager);
-//    imprimeFila(pManager->estadoBloqueado);
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,&process1));
-//    printCPU(pManager->cpu);
-//    imprimeTabela(pManager->tabela);
     return EXIT_SUCCESS;
 }
