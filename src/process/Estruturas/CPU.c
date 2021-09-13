@@ -32,7 +32,6 @@ void executa(CPU *cpu){// falta as operacoes de D , N , F  R
     else if(cpu->processoExecucao.vetorPrograma[cpu->processoExecucao.PC].comando == 'R'){
         //fazer operação R
     }
-
     cpu->timeSlice++;
     cpu->timeUsed++;
 }
