@@ -96,6 +96,7 @@ void imprimeMem(memProcess *mem);
 void processReader(process *processo, char *filename, int pid, int ppid);
 void imprimeTesteProcesso(process *processo);
 void imprimeProcesso(process *processo);
+process *criaProcesso(char *fileName,int pid,int ppid);
 
 
 #endif //ESTRUTURAS_SIMULATEDPROCESS_H

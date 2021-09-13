@@ -191,3 +191,12 @@ void insereOnMemory(memProcess *mem,int valor,int posicao){
         printf("--------------------------------------\n");
     }
 }
+
+process *criaProcesso(char *fileName,int pid,int ppid){
+    process *process1 = (process*) malloc(sizeof(process));
+    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
+    strcpy(newStr,fileName);
+    strcat(newStr,".txt");
+    processReader(process1,newStr,pid,ppid);
+    return process1;
+}
