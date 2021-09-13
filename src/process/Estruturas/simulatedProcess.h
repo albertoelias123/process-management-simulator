@@ -60,8 +60,8 @@ typedef struct{
 }instrucao;
 
 typedef struct{
-    estruturaMem *memory[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
-    int memUsed;//MAXTAM == 2
+    estruturaMem *position[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
+    int qtd;//MAXTAM == 2
 }memProcess;
 
 
@@ -75,7 +75,7 @@ typedef struct{
     int timeStart;
     int timeCpuUsed;
     int priority;
-    int qtdInstructions;
+    int qtdInstructions;    
 }process;
 
 //troca de contexto envolve copiar o estado do processo recém escalonado da tabela de processos

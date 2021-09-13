@@ -16,16 +16,6 @@
 // a 1 10
 // a 2 10
 
-typedef enum{
-    usando,naoUsando
-}estadoRegistrador;
-
-typedef struct{
-    estadoRegistrador state;//usando // usando
-    int valor;// 1010 // 510
-    int refMem;// 2 // 1
-}registrador;
-
 //primeiro salva a operação na mem processo a na posicao 0 o valor 0
 //mudou de processo, pega tudo do registrador e carrega na memoria do processo A
 
@@ -40,7 +30,6 @@ typedef struct{
 
 typedef struct{
     process processoExecucao;
-    registrador reg[TAM_REGISTRADOR];
     int timeSlice;//fatia de tempo do processo em execução na CPU
     int timeUsed; //tempo usado do timeSlice
 }CPU;
@@ -48,12 +37,9 @@ typedef struct{
 
 CPU *criaCPU();
 void executa(CPU *cpu);
-void sum(registrador *reg,int valor,int posicao);
-void sub(registrador *reg,int valor,int posicao);
-void carrega(memProcess *refMem,int position,registrador *reg);
-void salva(int *refMem,int position,registrador *reg);
+void sum(process *processOnCpu);
+void sub(process *processOnCpu);
 void printCPU(CPU *cpu);
-void printReg(registrador *reg);
 
 
 
