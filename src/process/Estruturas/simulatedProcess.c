@@ -164,7 +164,7 @@ void imprimeProcesso(process *processo){
     printf("\t\t[%d] \t",processo->timeCpuUsed);
     printf("\t\t\t\t [%d] \t",processo->qtdInstructions);
     printf("\t\t\t\t\t[%d]\t",processo->timeStart);
-    printf("\t\t\t\t[%.2f %] \t", (float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA);
+    printf("\t\t\t\t[%.2f %%] \t", (float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA);
 }
 
 
@@ -203,11 +203,3 @@ void insereOnMemory(memProcess *mem,int valor,int posicao){
     }
 }
 
-process *criaProcesso(char *fileName,int pid,int ppid){
-    process *process1 = (process*) malloc(sizeof(process));
-    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
-    strcpy(newStr,fileName);
-    strcat(newStr,".txt");
-    processReader(process1,newStr,pid,ppid);
-    return process1;
-}

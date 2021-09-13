@@ -2,8 +2,8 @@
 
 
 void schedulling(manager *pManager, int indexPtoCPU){
-    alteraEstado(pManager->tabela, *pManager->estadoExecucao); //replace type of state to rdy       
-    *pManager->tabela->processos[*pManager->estadoExecucao] = pManager->cpu->processoExecucao;
+    alteraEstado(pManager->tabela, pManager->estadoExecucao); //replace type of state to rdy       
+    *pManager->tabela->processos[pManager->estadoExecucao] = pManager->cpu->processoExecucao;
     pManager->cpu->processoExecucao = *pManager->tabela->processos[indexPtoCPU];
     printf("Troca de contexto\n");//teste
 }
@@ -40,8 +40,20 @@ void nonPreemptiveSchedulling(manager *pManager, char *command, int nextProcess)
     
     if(command == "B"){       
         schedulling(pManager,nextProcess); //troca de contexto
+        processSort(pManager);
     }else{
             fprintf(stderr, "Still running... \n");
     }    
+}
+
+void processSort(manager *pManager){
+    for (int i = 1; i <= pManager->estadoPronto->fim; i++){
+        int aux;
+        if (pManager->tabela->processos[pManager->estadoPronto->chave[i-1]]->priority > pManager->tabela->processos[pManager->estadoPronto->chave[i]]->priority){
+            aux = pManager->estadoPronto->chave[i-1];
+            pManager->estadoPronto->chave[i] = pManager->estadoPronto->chave[i-1];
+            pManager->estadoPronto->chave[i-1] = aux;            
+        }
+    }
 }
 
