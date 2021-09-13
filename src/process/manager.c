@@ -25,15 +25,7 @@ void comandL(manager *pManager){
     alteraEstado(pManager->tabela,indice);
 }
 
-process *criaProcesso(manager *pManager,char *fileName,int pid,int ppid){
-    process *process1 = (process*) malloc(sizeof(process));
-    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
-    strcpy(newStr,fileName);
-    strcat(newStr,".txt");
-    processReader(process1,newStr,pid,ppid);
-    return process1;
-}
-void setupManager(manager* pManager, int* pipe){
+void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl){
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
     pManager->estadoBloqueado = criaFila();
@@ -44,13 +36,12 @@ void setupManager(manager* pManager, int* pipe){
     pManager->time = 0;
 
     //criar o primeiro processo simulado
-    process *processo0 = criaProcesso(pManager,"processo0",0,0);
+    process *processo0 = criaProcesso("processo0",0,0);
     processo0->estado = execucao;
     //inserindo o primeiro processo na tabela de processos e na fila bloqueada
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,processo0));
     *pManager->estadoExecucao = insereOnTabela(pManager->tabela,processo0);
     //depois imprimir o q esta acontecendo
-//    imprimeTesteProcesso(&process1);
 
     //começar a fazer a operação L
 
@@ -58,22 +49,63 @@ void setupManager(manager* pManager, int* pipe){
     //fazer o comando U
     //melhorar operação I
 
-    pManager->pipe = pipe;
+    pManager->pipeControlToManager = pipeControlToManager;
+    pManager->pipeManagerToControl = pipeManagerToControl;
+    close(pManager->pipeControlToManager[1]); // Close the unwanted pipe2 write side
     pManager->PID = getpid();
     Debug("PID Manager = %d\n", pManager->PID);
 }
 
 void loopManager(manager *pManager){
     Debug("\tComeço Manager\n");
-    char *comando = (char*) malloc(sizeof (char));
+    char *command = (char*) malloc(sizeof (char));
     do{
         Debug("\tLoop Manager\n");
-        close(pManager->pipe[1]);
-        read(pManager->pipe[0], comando, sizeof(char));
-        Debug("\tComando no processo filho:%c\n", *comando);
-        printf("\tComando:%c\n", *comando);
-    } while (*comando != 'M');
-    free(comando);
+        close(pManager->pipeControlToManager[1]); // Quer Ler
+        close(pManager->pipeManagerToControl[0]); // Quer Escrever
+
+        read(pManager->pipeControlToManager[0], command, sizeof(char));
+        Debug("\t[Manager] Comando: %c\n", *command);
+
+        if(*command == 'I'){
+
+            printf("\t[Manager] Comando: %c | IMPRIMIR\n", *command);
+
+            pid_t pidImpress;
+            if((pidImpress = fork()) < 0){
+                perror("fork");
+                exit(EXIT_FAILURE);
+            }
+            if(pidImpress > 0){
+                //Manager
+
+                printf("\t[Manage] Aguarda processo impress\n");
+                //Aguarda a finalização do Processo Impressão
+                wait(NULL);
+                printf("\t[Manage] FIM\n");
+
+            }
+            else{
+
+                //Impress
+                printf("\t\t[Impress] Inicio\n");
+                imprimeManager(pManager);
+                printf("\t\t[Impress] SLEEP(5)\n");
+                sleep(5);
+                printf("\t\t[Impress] FIM\n");
+                exit(EXIT_SUCCESS);
+
+            }
+
+
+            printf("\n");
+            sleep(1);
+            write(pManager->pipeManagerToControl[1], "S", sizeof(char));
+
+        }
+
+    } while (*command != 'M');
+    free(command);
     Debug("\tFIM Manager\n");
     exit(EXIT_SUCCESS);
 }

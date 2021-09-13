@@ -11,14 +11,15 @@
 typedef struct control_ {
     pid_t pid;
     char *command;
-    int *pipe;
+    int *pipeControlToManager;
+    int *pipeManagerToControl;
 }control;
 
 void sendCommandByPipeToProcessManager(const control *pcontrol);
 int choiceMode();
 char* commandInteractive();
 char* commandsFromFile();
-void setupControl(control* pcontrol,int *pipe);
+void setupControl(control* pcontrol,int *pipeControlToManager, int* pipeManagerToControl);
 void loopControl(control* pcontrol);
 
 #endif //FROMZERO_CONTROL_H

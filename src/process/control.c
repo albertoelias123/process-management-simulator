@@ -5,8 +5,24 @@
 #include "control.h"
 
 void sendCommandByPipeToProcessManager(const control *pcontrol) {
-    close(pcontrol->pipe[0]);
-    write(pcontrol->pipe[1], pcontrol->command, sizeof(char));
+    close(pcontrol->pipeControlToManager[0]); // Quer Escrever
+    close(pcontrol->pipeManagerToControl[1]); // Quer Ler
+
+    write(pcontrol->pipeControlToManager[1], pcontrol->command, sizeof(char));
+    Debug("[Control] COMANDO ENVIADO %c", *(pcontrol->command))
+
+    if(*(pcontrol->command) == 'I'){
+
+        Debug("[Control] Aguardando Imprimir no Manager...\n");
+        char *command = (char*) malloc(sizeof (char));
+        read(pcontrol->pipeManagerToControl[0], command, sizeof(char));
+        if(*command == 'S') //Sucesso
+            printf("Print Executado com Sucesso");
+        else
+            printf("Imprimir c/ erro, comando recebido %c", *(pcontrol->command));
+        free(command);
+
+    }
 }
 
 int choiceMode(){
@@ -34,7 +50,8 @@ char* commandInteractive(){
     printf("\n--------------------------------------------------------\n");
     printf("\nEntre com o comando: ");
     char *comando = (char*) malloc(sizeof(char));
-    scanf("%s",comando);
+    fflush(stdin);
+    scanf(" %c",comando);
     return comando;
 }
 
@@ -65,8 +82,9 @@ char* commandsFromFile(){
     }
 }
 
-void setupControl(control* pcontrol,int *pipe){
-    pcontrol->pipe = pipe;
+void setupControl(control* pcontrol, int *pipeControlToManager, int* pipeManagerToControl){
+    pcontrol->pipeControlToManager = pipeControlToManager;
+    pcontrol->pipeManagerToControl = pipeManagerToControl;
     //Salva o PID do Processo Control
     pcontrol->pid = getpid();
     printf("PID Control = %d\n", pcontrol->pid);
@@ -88,8 +106,8 @@ void loopControl(control* pcontrol){
 
     } else {
 
-        char* comandos = commandsFromFile();
-        pcontrol->command = comandos;
+        char* commands = commandsFromFile();
+        pcontrol->command = commands;
         while (*(pcontrol->command-1) != 'M') {
 
             Debug("Loop Control\n");
@@ -98,8 +116,7 @@ void loopControl(control* pcontrol){
             pcontrol->command++;
 
         }
-        free(comandos);
-
+        free(commands);
     }
 
     /*
