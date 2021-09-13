@@ -5,13 +5,16 @@
 #include "manager.h"
 void timeIncrement(manager *pManager){
     pManager->tabela->processos[*pManager->estadoExecucao]->timeCpuUsed++;
+    pManager->cpu->timeSlice++;
     pManager->cpu->timeUsed++;
     pManager->time++;
 }
 void comandU(manager *pManager){
     //faz o escalonamento (pode envolver troca de contexto)
+
     //executa a proxima instrução do processo simulado em execucao
-    executa(pManager->cpu);
+    executa(pManager->cpu,pManager->tabela->processos[*pManager->estadoExecucao]);
+
     //incrementa o PC , execeto para instruções F ou R
     if(pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'F' &&
     pManager->tabela->processos[*pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[*pManager->estadoExecucao]->PC].comando != 'R'){
@@ -25,14 +28,6 @@ void comandL(manager *pManager){
     alteraEstado(pManager->tabela,indice);
 }
 
-process *criaProcesso(manager *pManager,char *fileName,int pid,int ppid){
-    process *process1 = (process*) malloc(sizeof(process));
-    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
-    strcpy(newStr,fileName);
-    strcat(newStr,".txt");
-    processReader(process1,newStr,pid,ppid);
-    return process1;
-}
 void setupManager(manager* pManager, int* pipe){
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
@@ -44,7 +39,7 @@ void setupManager(manager* pManager, int* pipe){
     pManager->time = 0;
 
     //criar o primeiro processo simulado
-    process *processo0 = criaProcesso(pManager,"processo0",0,0);
+    process *processo0 = criaProcesso("processo0",0,0);
     processo0->estado = execucao;
     //inserindo o primeiro processo na tabela de processos e na fila bloqueada
 //    insereOnFila(pManager->estadoBloqueado,insereOnTabela(pManager->tabela,processo0));
@@ -87,7 +82,8 @@ void imprimeManager(manager *pManager){
     printf("\n||||||||||||||||||||| indices processos prontos ||||||||||||||||||||| \n");
     printf("\t");
     imprimeFila(pManager->estadoPronto);
-    printf("\n||||||||||||||||||||| Indice processo em execucao ");
+    printf("\n||||||||||||||||||||| Indice processo em execucao na tabela ");
     printf("[%d] |||||||||||||||||||||\n\n",*pManager->estadoExecucao);
+    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
     imprimeTabela(pManager->tabela);
 }

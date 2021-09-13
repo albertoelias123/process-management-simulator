@@ -60,8 +60,8 @@ typedef struct{
 }instrucao;
 
 typedef struct{
-    estruturaMem *memory[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
-    int memUsed;//MAXTAM == 2
+    estruturaMem *position[TAM_VETOR_MEMORIA]; // define a posicao 0 valendo 0 //  define a posicao 1 valendo 0 // coloca o valor 1000 na posicao 0
+    int qtd;//MAXTAM == 2
 }memProcess;
 
 
@@ -96,6 +96,7 @@ void imprimeMem(memProcess *mem);
 void processReader(process *processo, char *filename, int pid, int ppid);
 void imprimeTesteProcesso(process *processo);
 void imprimeProcesso(process *processo);
+process *criaProcesso(char *fileName,int pid,int ppid);
 
 
 #endif //ESTRUTURAS_SIMULATEDPROCESS_H

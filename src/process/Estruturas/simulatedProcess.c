@@ -3,6 +3,18 @@
 //
 
 #include "simulatedProcess.h"
+
+process *criaProcesso(char *fileName,int pid,int ppid){
+
+    process *process1 = (process*) malloc(sizeof(process));
+    char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
+    strcpy(newStr,fileName);
+    strcat(newStr,".txt");
+    processReader(process1,newStr,pid,ppid);
+    return process1;
+
+}
+
 void inicializaProcess(process *processo, int pid, int ppid){
     processo->PC = 0;
     processo->qtdInstructions = 0;
@@ -42,7 +54,6 @@ void processReader(process *processo, char *filename, int pid, int ppid){
                 processo->vetorPrograma[PC].comando = 'D';
                 fscanf(fl, "%d", &index);
                 processo->vetorPrograma[PC].D.refMem = index;
-                insereOnMemory(&processo->memory, 0, index);
                 processo->qtdInstructions++;
                 PC++;
             }
@@ -106,12 +117,12 @@ void processReader(process *processo, char *filename, int pid, int ppid){
 }
 
 void imprimeMem(memProcess *mem){
-    printf("\n||||||||||Memoria processo||||||||||\n");
-    for(int i = 0;i<mem->memUsed;i++){
-        if(i + 1 < mem->memUsed)
-            printf("[%d]=%d | ",mem->memory[i]->posicao,mem->memory[i]->valor);
+    printf("\n||||||||||Memoria do processo ||||||||||\n");
+    for(int i = 0;i<mem->qtd; i++){
+        if(i + 1 < mem->qtd)
+            printf("[%d]=%d | ", mem->position[i]->posicao, mem->position[i]->valor);
         else
-            printf("[%d]=%d\n",mem->memory[i]->posicao,mem->memory[i]->valor);
+            printf("[%d]=%d\n", mem->position[i]->posicao, mem->position[i]->valor);
     }
 }
 
@@ -153,26 +164,26 @@ void imprimeProcesso(process *processo){
     printf("\t\t[%d] \t",processo->timeCpuUsed);
     printf("\t\t\t\t [%d] \t",processo->qtdInstructions);
     printf("\t\t\t\t\t[%d]\t",processo->timeStart);
-    printf("\t\t\t\t[%.2f %] \t",(float)(processo->memory.memUsed * 100)/TAM_VETOR_MEMORIA);
+    printf("\t\t\t\t[%.2f %] \t", (float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA);
 }
 
 
 memProcess *createMemory(){
     memProcess *mem = (memProcess*) malloc(sizeof(memProcess));
-    mem->memUsed = 0;
+    mem->qtd = 0;
     for(int i = 0;i<TAM_VETOR_MEMORIA;i++){
-        mem->memory[i] = NULL;
+        mem->position[i] = NULL;
     }
     return mem;
 }
 int memFull(memProcess *mem){
-    if(mem->memUsed == TAM_VETOR_MEMORIA - 1){
+    if(mem->qtd == TAM_VETOR_MEMORIA - 1){
         return TRUE;
     }
     return FALSE;
 }
 int memEmpty(memProcess *mem){
-    if(mem->memUsed == 0){
+    if(mem->qtd == 0){
         return TRUE;
     }
     return FALSE;
@@ -183,7 +194,7 @@ void insereOnMemory(memProcess *mem,int valor,int posicao){
         estruturaMem *novaEstrutura = (estruturaMem*) malloc(sizeof(estruturaMem));
         novaEstrutura->posicao = posicao;
         novaEstrutura->valor = valor;
-        mem->memory[mem->memUsed++] = novaEstrutura;
+        mem->position[mem->qtd++] = novaEstrutura;
     }
     else{
         printf("\n--------------------------------------");
