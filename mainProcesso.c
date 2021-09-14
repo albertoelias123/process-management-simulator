@@ -13,26 +13,26 @@ int main(){
     pManager->cpu = criaCPU();
     pManager->tabela = criaTabela();
 
-    *pManager->estadoExecucao = insereOnTabela(pManager->tabela,&process1);
+    pManager->estadoExecucao = insereOnTabela(pManager->tabela,&process1);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     comandU(pManager);
-    imprimeMem(&pManager->tabela->processos[*pManager->estadoExecucao]->memory);
+    imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     return EXIT_SUCCESS;
 }

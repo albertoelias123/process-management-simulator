@@ -17,6 +17,12 @@
 #endif
 
 typedef struct{
+    process processoExecucao;
+    int timeSlice;//fatia de tempo do processo em execução na CPU
+    int timeUsed; //tempo usado do timeSlice
+}CPU;
+
+typedef struct{
     int *pipeControlToManager;
     int *pipeManagerToControl;
     pid_t PID;

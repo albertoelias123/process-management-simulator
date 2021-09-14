@@ -3,19 +3,14 @@
 //
 
 #include "manager.h"
+#include "/home/pedro/CLionProjects/process-management-simulato/src/process/schedulling.h"
 
 void comandU(manager *pManager){
-    //faz o escalonamento (pode envolver troca de contexto)
-    //escalona()
-
     //executa a proxima instrução do processo simulado em execucao
-    executa(pManager->cpu);
 
-    //incrementa o PC , execeto para instruções F ou R
-    if(pManager->tabela->processos[pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[pManager->estadoExecucao]->PC].comando != 'F' &&
-    pManager->tabela->processos[pManager->estadoExecucao]->vetorPrograma[pManager->tabela->processos[pManager->estadoExecucao]->PC].comando != 'R'){
-        pManager->tabela->processos[pManager->estadoExecucao]->PC++;
-    }
+    executa(pManager->tabela->processos[pManager->estadoPronto->chave[0]],pManager);
+
+
     pManager->time++;
 }
 
@@ -29,7 +24,7 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
     pManager->estadoBloqueado = criaFila();
-    pManager->estadoExecucao = -1;
+    pManager->estadoExecucao = 0;
     pManager->estadoPronto = criaFila();
     pManager->tabela = criaTabela();
     pManager->cpu = criaCPU();
@@ -37,8 +32,8 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
 
     //criar o primeiro processo simulado
     process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,0);
-    processo0->estado = bloqueado;
-    pManager->estadoExecucao = insereOnTabela(pManager->tabela,processo0);
+
+    insereOnFila(pManager->estadoBloqueado, insereOnTabela(pManager->tabela,processo0));
 
     pManager->pipeControlToManager = pipeControlToManager;
     pManager->pipeManagerToControl = pipeManagerToControl;
@@ -56,7 +51,12 @@ void loopManager(manager *pManager){
 
         read(pManager->pipeControlToManager[0], command, sizeof(char));
         Debug("\t[Manager] Comando: %c\n", *command);
-
+        if(*command == 'U'){
+            comandU(pManager);
+        }
+        if(*command == 'L'){
+            comandL(pManager);
+        }
         if(*command == 'I'){
 
             printf("\t[Manager] Comando: %c | IMPRIMIR\n", *command);
@@ -110,8 +110,6 @@ void imprimeManager(manager *pManager){
     printf("\n||||||||||||||||||||| indices processos prontos ||||||||||||||||||||| \n");
     printf("\t");
     imprimeFila(pManager->estadoPronto);
-    printf("\n||||||||||||||||||||| Indice processo em execucao na tabela ");
-    printf("[%d] |||||||||||||||||||||\n\n",pManager->estadoExecucao);
     imprimeMem(&pManager->tabela->processos[pManager->estadoExecucao]->memory);
     imprimeTabela(pManager->tabela);
 }
