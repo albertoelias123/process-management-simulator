@@ -52,14 +52,26 @@ void prioritySchedulling(manager *pManager){
 
 //  Once resources(CPU Cycle) are allocated to a process, the process holds it till it completes its burst time or switches to a bloqued (bloqueado) state.
 
-void nonPreemptiveSchedulling(manager *pManager, char *command, int nextProcess){ 
-    
-    if(*command == 'B'){
-        dispatcher(pManager, nextProcess); //troca de contexto
-//        processSort(pManager); não vai precisar pq ja vai receber a fila ordenada
-    }else{
-            fprintf(stderr, "Still running... \n");
-    }    
+void nonPreemptiveSchedulling(manager *pManager){
+    if(pManager->processoEmExecucao != -1)
+        if(pManager->cpu->processoExecucao.estado == bloqueado){ // o processo está bloquedo
+            insereOnFila(pManager->processosBloqueados, pManager->processoEmExecucao);            
+            *pManager->tabela->processos[pManager->processoEmExecucao] = pManager->cpu->processoExecucao;
+            pManager->processoEmExecucao = -1;
+        }
+
+    if(!filaEVazia(pManager->processosProntos)){
+
+        int nextProcess = removeOfFila(pManager->processosProntos);
+        if(pManager->processoEmExecucao == -1 ) { // nenhum processo em execução
+            dispatcher(pManager, nextProcess);
+        }
+        else{ // temos um processo em execução
+            pManager->cpu->processoExecucao.estado = pronto;
+            insereOnFila(pManager->processosProntos, pManager->processoEmExecucao);
+            dispatcher(pManager, nextProcess); //troca de contexto
+        }
+    }
 }
 
 void processSort(manager *pManager){

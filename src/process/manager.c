@@ -6,7 +6,8 @@
 #include "schedulling.h"
 
 void executa(manager *pManager){
-    prioritySchedulling(pManager);
+    //prioritySchedulling(pManager);
+    nonPreemptiveSchedulling(pManager);// realiza escalonamento
     if(pManager->processoEmExecucao != -1) {
 
         char *command = (char *) malloc(sizeof(char));
@@ -43,7 +44,8 @@ void executa(manager *pManager){
             //movendo o processo atualmente em execução para bloqueado
             pManager->cpu->processoExecucao.estado = bloqueado;
             pManager->cpu->processoExecucao.PC++;
-            prioritySchedulling(pManager);// realiza escalonamento
+            //prioritySchedulling(pManager);// realiza escalonamento
+            nonPreemptiveSchedulling(pManager);// realiza escalonamento
 
         } else if (*command == 'F') {
             process newProcessSimulated;
@@ -182,7 +184,7 @@ void imprimeManager(manager *pManager){
         printf("Total time used: %d | pidAutoincrement %d\n", pManager->time,pManager->pidAutoIncrement);
         if(pManager->processoEmExecucao == -1) {
             printf("\n|||||||||||||||||||||||||||||||||| CPU |||||||||||||||||||||||||||||||||||||||\n");
-            printf("Time Used = %d",pManager->cpu->timeUsed);
+            printf("Time Lapse = %d",pManager->cpu->timeUsed);
             printf("\n***************************************\n");
             printf("Nao ha processos atualmente em execucao");
             printf("\n***************************************\n");
