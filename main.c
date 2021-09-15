@@ -6,23 +6,31 @@ int main(int argc, char *argv[]){
     manager pManager;    
     strcpy(pManager.schedullingPolitics,argv[1]); //escolha da politica de escalonamento    
 
-    Debug("Politica: %s \n", pManager.schedullingPolitics);
+
+    if(strcmp(pManager.schedullingPolitics, "P") == 0)
+        printf("Politica de Prioridade\n");
+    else if(strcmp(pManager.schedullingPolitics, "N") == 0)
+        printf("Politica Não Preemptiva\n");
+    else{
+        printf("Politica Não Definida\n");
+        exit(EXIT_FAILURE);
+    }
 
     /*/////////////////////////////// Cria o pipeControlToManager////////////////////////////*/
     //se o pipeControlToManager retornar -1 significa que não houve sucesso na sua criação
     int *pipeControlToManager = (int*) malloc(2 * sizeof(int));
     int *pipeManagerToControl = (int*) malloc(2 * sizeof(int));
     if (pipe(pipeControlToManager) < 0){
-        perror("Pipe");
+        perror("Pipe Control");
         exit(EXIT_FAILURE);
     } else {
-        printf("PipeControlToManager criado c/ sucesso\n");
+        Debug("PipeControlToManager criado c/ sucesso\n");
     }
     if (pipe(pipeManagerToControl) < 0){
-        perror("Pipe");
+        perror("Pipe Manager");
         exit(EXIT_FAILURE);
     } else {
-        printf("PipeManagerToControl criado c/ sucesso\n");
+        Debug("PipeManagerToControl criado c/ sucesso\n");
     }
     /* ///////////////////////////////////////////////////////////////// */
 
