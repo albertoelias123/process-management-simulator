@@ -34,7 +34,7 @@ void alteraEstadoParaExecucao(TabelaDeProcessos *tabela, int indice){
 }
 void imprimeTabela(TabelaDeProcessos *tabela){
     printf("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| Tabela de processos ||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-    printf("|  ID  | State | Time CPU | instructs | PC | Time start | Mem used |\n");
+    printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used |\n");
     for(int i = 0;i<tabela->qtd;i++){
         imprimeProcesso(tabela->processos[i]);
         printf("\n");

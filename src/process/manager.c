@@ -86,7 +86,7 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     pManager->time = 0;
 
     //criar o primeiro processo simulado
-    process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,0);
+    process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,-1);
 
     insereOnFila(pManager->processosBloqueados, insereOnTabela(pManager->tabela, processo0));
 
@@ -169,7 +169,7 @@ void imprimeManager(manager *pManager){
             printf("\n***************************************\n");
         }
         else{
-            printf("|  ID  | State | Time CPU | instructs | PC | Time start | Mem used |\n");
+            printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used |\n");
             imprimeProcesso(pManager->tabela->processos[pManager->processoEmExecucao]);
             imprimeMem(&pManager->tabela->processos[pManager->processoEmExecucao]->memory);
         }
@@ -190,7 +190,7 @@ void imprimeManager(manager *pManager){
         else{
             printCPU(pManager->cpu);
             printf("\n ||||||||||||||||||||| Processo em execucao ||||||||||||||||||||| \n");
-            printf("|  ID  | State | Time CPU | instructs | PC | Time start | Mem used |\n");
+            printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used |\n");
             imprimeProcesso(&pManager->cpu->processoExecucao);
             imprimeMem(&pManager->cpu->processoExecucao.memory);
         }

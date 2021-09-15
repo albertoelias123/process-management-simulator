@@ -152,7 +152,9 @@ void imprimeTesteProcesso(process *processo){
 
 void imprimeProcesso(process *processo){
     printf("| ");
-    printf("%-4d",processo->pid);// ID
+    printf("%-3d",processo->pid);// ID
+    printf(" | ");
+    printf("%-4d",processo->ppid);// ID
     printf(" | ");
     if(processo->estado == bloqueado){
         printf("%-5s", "Bloq");
