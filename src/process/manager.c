@@ -70,8 +70,8 @@ void executa(manager *pManager){
             // SALVAR TEMPO DE EXECUCAO PARA CALCULAR TEMPO MEDIO
             // FAZER CODIGO AQUI
 
-            pManager->timeProcessAbsolut += pManager->cpu->timeUsed;
-            pManager->qtdProcessosExecuted++;// usado para calcular o tempo medio
+
+            pManager->timeProcessAbsolut += pManager->cpu->processoExecucao.timeCpuUsed;
             free(pManager->tabela->processos[pManager->processoEmExecucao]);
             pManager->tabela->processos[pManager->processoEmExecucao] = NULL;
             pManager->tabela->qtd--;
@@ -91,13 +91,14 @@ void comandL(manager *pManager){
 }
 
 void averageTime(manager *pManager){
-    printf("\n*******************************\n");
-    if(pManager->qtdProcessosExecuted > 0) {
-        printf("O tempo medio do ciclio = %d", pManager->timeProcessAbsolut / pManager->qtdProcessosExecuted);
+    printf("\n*************************************\n");
+    if(pManager->pidAutoIncrement > 0) {
+        printf("Tempo medio do ciclio = %.2f UT",(float)pManager->timeProcessAbsolut / (float)pManager->pidAutoIncrement);
     }
     else{
-        printf("O tempo medio do ciclio = %d", 0);
+        printf("Tempo medio do ciclio = %d", 0);
     }
+    printf("\n*************************************\n");
 }
 
 void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl){
@@ -110,7 +111,6 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     pManager->cpu = criaCPU();
     pManager->time = 0;
     pManager->timeProcessAbsolut = 0;
-    pManager->qtdProcessosExecuted = 0;
 
     //criar o primeiro processo simulado
     process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,-1);
@@ -177,7 +177,7 @@ void loopManager(manager *pManager){
     } while (*command != 'M');
 
     if(*command == 'M'){
-
+        averageTime(pManager);
     }
 
     free(command);
@@ -263,7 +263,7 @@ void imprimeManager(manager *pManager){
         printf("\n ||||||||||||||||||||| Processo %d da tabela de processos ||||||||||||||||||||| \n",indice);
         printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
         imprimeProcesso(pManager->tabela->processos[indice]);
-        imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+        imprimeInstrucoesProcesso(pManager->tabela->processos[indice]);
         imprimeMem(&pManager->tabela->processos[indice]->memory);
     }
 }

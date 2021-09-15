@@ -29,7 +29,6 @@ typedef struct{
     int processoEmExecucao;
     CPU *cpu;
 
-    int qtdProcessosExecuted;
     int timeProcessAbsolut;
     int pidAutoIncrement;
 }manager;
