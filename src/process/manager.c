@@ -211,7 +211,7 @@ void imprimeManager(manager *pManager){
         printf("Total time used: %d | pidAutoincrement %d\n", pManager->time,pManager->pidAutoIncrement);
         if(pManager->processoEmExecucao == -1) {
             printf("\n|||||||||||||||||||||||||||||||||| CPU |||||||||||||||||||||||||||||||||||||||\n");
-            printf("Time Lapse = %d",pManager->cpu->timeUsed);
+            printf("Time Used = %d",pManager->cpu->timeUsed);
             printf("\n***************************************\n");
             printf("Nao ha processos atualmente em execucao");
             printf("\n***************************************\n");
