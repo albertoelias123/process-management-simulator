@@ -49,10 +49,19 @@ char* commandInteractive(){
            "M: Imprime o temo médio do ciclo e finaliza o sistema\n");
     printf("\n--------------------------------------------------------\n");
     printf("\nEntre com o comando: ");
+
     char *comando = (char*) malloc(sizeof(char));
     fflush(stdin);
     scanf(" %c",comando);
-    return comando;
+
+    if (comando = ('U' || 'L' || 'I' || 'M')){
+        return comando;
+    }else{
+        return (fprintf(syserr, ))
+    }
+
+
+    
 }
 
 char* commandsFromFile(){

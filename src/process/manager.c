@@ -3,7 +3,7 @@
 //
 
 #include "manager.h"
-#include "/home/pedro/CLionProjects/process-management-simulato/src/process/schedulling.h"
+#include "schedulling.h"
 
 void executa(manager *pManager){
     prioritySchedulling(pManager);
