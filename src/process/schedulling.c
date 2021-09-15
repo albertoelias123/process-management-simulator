@@ -17,6 +17,17 @@ void dispatcher(manager *pManager, int indexPtoCPU){//troca de contexo
     }
 }
 
+void schedulling(manager *pManager){    
+    if(strcmp(pManager->schedullingPolitics, "P") == 0){
+        prioritySchedulling(pManager);
+    }else if(strcmp(pManager->schedullingPolitics, "F") == 0){
+        fifoSchedulling(pManager);
+    }else{
+        fprintf(stderr, "Erro na escolha da politica!\n");
+    }
+
+}
+
 
 void prioritySchedulling(manager *pManager){
     if(pManager->processoEmExecucao != -1)
@@ -31,8 +42,8 @@ void prioritySchedulling(manager *pManager){
 
     if(!filaEVazia(pManager->processosProntos)){
 
-        int nextProcess = removeOfFila(pManager->processosProntos);
         if(pManager->processoEmExecucao == -1 ) { // nenhum processo em execução
+            int nextProcess = removeOfFila(pManager->processosProntos);
             dispatcher(pManager, nextProcess);
         }
         else{ // temos um processo em execução
@@ -43,6 +54,7 @@ void prioritySchedulling(manager *pManager){
                 if (pManager->cpu->processoExecucao.priority < 3)//diminui a prioridade
                     pManager->cpu->processoExecucao.priority++;
 
+                int nextProcess = removeOfFila(pManager->processosProntos);
                 dispatcher(pManager, nextProcess); //troca de contexto
             }
         }
@@ -53,7 +65,7 @@ void prioritySchedulling(manager *pManager){
 
 //  Once resources(CPU Cycle) are allocated to a process, the process holds it till it completes its burst time or switches to a bloqued (bloqueado) state.
 
-void nonPreemptiveSchedulling(manager *pManager){
+void fifoSchedulling(manager *pManager){
     if(pManager->processoEmExecucao != -1)
         if(pManager->cpu->processoExecucao.estado == bloqueado){ // o processo está bloquedo
             insereOnFila(pManager->processosBloqueados, pManager->processoEmExecucao);            

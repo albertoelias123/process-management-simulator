@@ -17,7 +17,7 @@ void sendCommandByPipeToProcessManager(const control *pcontrol) {
         char *command = (char*) malloc(sizeof (char));
         read(pcontrol->pipeManagerToControl[0], command, sizeof(char));
         if(*command == 'S') //Sucesso
-            printf("Print Executado com Sucesso");
+            Debug("Print Executado com Sucesso");
         else
             printf("Imprimir c/ erro, comando recebido %c", *(pcontrol->command));
         free(command);
@@ -41,7 +41,7 @@ int choiceMode(){
 }
 
 char* commandInteractive(){
-    printf("\n--------------------------------------------------------\n");
+    printf("--------------------------------------------------------\n");
     printf("|||||| Existem 4 tipos de comandos |||||||\n"
            "U: Fim de uma unidade de tempo\n"
            "L: Desbloqueia o primeiro processo simulado na fila bloqueada\n"
@@ -113,6 +113,10 @@ void loopControl(control* pcontrol){
             pcontrol->command = commandInteractive();
             Debug("Comando no processo Control:%s\n",pcontrol->command);
             sendCommandByPipeToProcessManager(pcontrol);
+
+            if(*(pcontrol->command) == 'U' || *(pcontrol->command) == 'L')
+                system("clear");
+
         }while( *(pcontrol->command) != 'M');
 
     } else {
