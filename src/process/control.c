@@ -108,7 +108,7 @@ void loopControl(control* pcontrol){
 
         char* commands = commandsFromFile();
         pcontrol->command = commands;
-        while (*(pcontrol->command-1) != 'M') {
+        while (*(pcontrol->command-1) != 'M' && *(pcontrol->command) != 'Y') {
 
             Debug("Loop Control\n");
             Debug("Comando no processo Control:%c\n",*(pcontrol->command));
@@ -117,6 +117,8 @@ void loopControl(control* pcontrol){
 
         }
         free(commands);
+        if(*(pcontrol->command) == 'Y')
+            loopControl(pcontrol);
     }
 
     /*
