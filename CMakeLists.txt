@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.20)
-project(process_management_simulator C)
+cmake_minimum_required(VERSION 3.16)
+project(estruturas C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
-include_directories(.)
+add_executable(estruturas main.c src/process/Estruturas/filaEstatica.c src/process/Estruturas/filaEstatica.h src/process/Estruturas/pilhaEstatica.c src/process/Estruturas/pilhaEstatica.h src/process/Estruturas/TabelaProcessos.c src/process/Estruturas/TabelaProcessos.h src/process/Estruturas/simulatedProcess.c src/process/Estruturas/simulatedProcess.h src/process/control.c src/process/control.h src/process/manager.c src/process/manager.h src/process/Estruturas/CPU.c src/process/Estruturas/CPU.h src/process/schedulling.h src/process/schedulling.c)
+#add_executable(estruturas mainProcesso.c src/process/Estruturas/filaEstatica.c src/process/Estruturas/filaEstatica.h src/process/Estruturas/pilhaEstatica.c src/process/Estruturas/pilhaEstatica.h src/process/Estruturas/TabelaProcessos.c src/process/Estruturas/TabelaProcessos.h src/process/Estruturas/simulatedProcess.c src/process/Estruturas/simulatedProcess.h src/process/control.c src/process/control.h src/process/manager.c src/process/manager.h src/process/Estruturas/CPU.c src/process/Estruturas/CPU.h)
 
-add_executable(process_management_simulator
-        main.c Controle.c Controle.h Processo.c Processo.h ProcessMemory.c ProcessMemory.h filaProcessos.c filaProcessos.h Interface.c Interface.h)
+target_link_libraries(estruturas m)
