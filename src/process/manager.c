@@ -243,7 +243,7 @@ void imprimeManager(manager *pManager){
         printf("\n ||||||||||||||||||||| Processo %d da tabela de processos ||||||||||||||||||||| \n",indice);
         printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
         imprimeProcesso(pManager->tabela->processos[indice]);
-        imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+        imprimeInstrucoesProcesso(pManager->tabela->processos[indice]);
         imprimeMem(&pManager->tabela->processos[indice]->memory);
     }
 }
