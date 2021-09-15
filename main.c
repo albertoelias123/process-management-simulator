@@ -9,8 +9,8 @@ int main(int argc, char *argv[]){
 
     if(strcmp(pManager.schedullingPolitics, "P") == 0)
         printf("Politica de Prioridade\n");
-    else if(strcmp(pManager.schedullingPolitics, "N") == 0)
-        printf("Politica Não Preemptiva\n");
+    else if(strcmp(pManager.schedullingPolitics, "F") == 0)
+        printf("Politica FIFO\n");
     else{
         printf("Politica Não Definida\n");
         exit(EXIT_FAILURE);
