@@ -16,6 +16,17 @@ void dispatcher(manager *pManager, int indexPtoCPU){//troca de contexo
     }
 }
 
+void schedulling(manager *pManager){    
+    if(strcmp(pManager->schedullingPolitics, "0")){
+        prioritySchedulling(pManager);
+    }else if(strcmp(pManager->schedullingPolitics, "1")){
+        nonPreemptiveSchedulling(pManager);
+    }else{
+        fprintf(stderr, "Erro na escolha da politica!\n");
+    }
+
+}
+
 
 void prioritySchedulling(manager *pManager){
     if(pManager->processoEmExecucao != -1)

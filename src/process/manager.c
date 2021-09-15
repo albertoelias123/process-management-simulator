@@ -5,9 +5,8 @@
 #include "manager.h"
 #include "schedulling.h"
 
-void executa(manager *pManager){
-    //prioritySchedulling(pManager);
-    nonPreemptiveSchedulling(pManager);// realiza escalonamento
+void executa(manager *pManager){    
+    schedulling(pManager);// realiza escalonamento com base na politica escolhida
     if(pManager->processoEmExecucao != -1) {
 
         char *command = (char *) malloc(sizeof(char));
@@ -43,18 +42,12 @@ void executa(manager *pManager){
         } else if (*command == 'B') { // implementação da politica de escalonamento
             //movendo o processo atualmente em execução para bloqueado
             pManager->cpu->processoExecucao.estado = bloqueado;
-            pManager->cpu->processoExecucao.PC++;
-            //prioritySchedulling(pManager);// realiza escalonamento
-            nonPreemptiveSchedulling(pManager);// realiza escalonamento
+            pManager->cpu->processoExecucao.PC++;            
+            schedulling(pManager);// realiza escalonamento
 
         } else if (*command == 'F') {
-            process newProcessSimulated;
-            newProcessSimulated = pManager->cpu->processoExecucao;
-            newProcessSimulated.PC++;
+            commandF(pManager);
 
-            insereOnFila(pManager->processosProntos, insereOnTabela(pManager->tabela, &newProcessSimulated));
-            pManager->cpu->processoExecucao.PC +=
-                    pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].F.valor + 1;
         } else if (*command == 'T') {
             free(pManager->tabela->processos[pManager->processoEmExecucao]);//testar
             pManager->processoEmExecucao = removeOfFila(pManager->processosProntos);
@@ -69,7 +62,23 @@ void executa(manager *pManager){
     pManager->time++;
 }
 
+void commandF(manager *pManager){
+    process newProcessSimulated;
+    newProcessSimulated.qtdInstructions = pManager->cpu->processoExecucao.qtdInstructions;
+    newProcessSimulated.memory = pManager->cpu->processoExecucao.memory;
+    newProcessSimulated.estado = pronto;
+    newProcessSimulated.priority = pManager->cpu->processoExecucao.priority;
+    newProcessSimulated.timeStart = pManager->cpu->processoExecucao.timeStart;
+    newProcessSimulated.timeCpuUsed = 0;
+    newProcessSimulated.ppid = pManager->cpu->processoExecucao.pid;
+    newProcessSimulated.pid = pManager->cpu->processoExecucao.pid +1;
+    newProcessSimulated.PC = pManager->cpu->processoExecucao.PC + 1;
+            
+    insereOnFila(pManager->processosProntos, insereOnTabela(pManager->tabela, &newProcessSimulated));
+    pManager->cpu->processoExecucao.PC += pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].F.valor + 1;  
+    printf("Projeto filho criado \n");          
 
+}
 
 void comandL(manager *pManager){
     int indice = removeOfFila(pManager->processosBloqueados);

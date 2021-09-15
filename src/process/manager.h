@@ -28,6 +28,7 @@ typedef struct{
     Fila *processosBloqueados;
     int processoEmExecucao;
     CPU *cpu;
+    char schedullingPolitics[1];
 
     int pidAutoIncrement;
 }manager;
@@ -35,6 +36,7 @@ typedef struct{
 void loopManager(manager *pManager);
 void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl);
 void comandL(manager *pManager);
+void commandF(manager *pManager);
 void executa(manager *pManager);
 void timeIncrement(manager *pManager);
 void imprimeManager(manager *pManager); // fazer os imprime tudo

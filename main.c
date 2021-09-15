@@ -1,9 +1,12 @@
 #include "src/process/control.h"
 
-int main(){
+int main(int argc, char *argv[]){
     pid_t pidMain;
     control pControl;
-    manager pManager;
+    manager pManager;    
+    strcpy(pManager.schedullingPolitics,argv[1]); //escolha da politica de escalonamento    
+
+    Debug("Politica: %s \n", pManager.schedullingPolitics);
 
     /*/////////////////////////////// Cria o pipeControlToManager////////////////////////////*/
     //se o pipeControlToManager retornar -1 significa que não houve sucesso na sua criação

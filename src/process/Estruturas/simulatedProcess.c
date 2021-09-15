@@ -26,6 +26,8 @@ void inicializaProcess(process *processo, int pid, int ppid){
     processo->ppid = ppid;
     processo->pid = pid;
 }
+
+
 void processReader(process *processo, char *filename, int pid, int ppid){
     int PC = 0, index, numVar, declaration, value;
     char fileN[20];
