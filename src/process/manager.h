@@ -29,6 +29,8 @@ typedef struct{
     int processoEmExecucao;
     CPU *cpu;
 
+    int qtdProcessosExecuted;
+    int timeProcessAbsolut;
     int pidAutoIncrement;
 }manager;
 
@@ -36,6 +38,7 @@ void loopManager(manager *pManager);
 void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl);
 void comandL(manager *pManager);
 void executa(manager *pManager);
+void averageTime(manager *pManager);
 void timeIncrement(manager *pManager);
 void imprimeManager(manager *pManager); // fazer os imprime tudo
 

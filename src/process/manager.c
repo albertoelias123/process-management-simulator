@@ -69,6 +69,9 @@ void executa(manager *pManager){
         } else if (*command == 'T') {
             // SALVAR TEMPO DE EXECUCAO PARA CALCULAR TEMPO MEDIO
             // FAZER CODIGO AQUI
+
+            pManager->timeProcessAbsolut += pManager->cpu->timeUsed;
+            pManager->qtdProcessosExecuted++;// usado para calcular o tempo medio
             free(pManager->tabela->processos[pManager->processoEmExecucao]);
             pManager->tabela->processos[pManager->processoEmExecucao] = NULL;
             pManager->tabela->qtd--;
@@ -87,6 +90,16 @@ void comandL(manager *pManager){
     alteraEstadoParaPronto(pManager->tabela, indice);
 }
 
+void averageTime(manager *pManager){
+    printf("\n*******************************\n");
+    if(pManager->qtdProcessosExecuted > 0) {
+        printf("O tempo medio do ciclio = %d", pManager->timeProcessAbsolut / pManager->qtdProcessosExecuted);
+    }
+    else{
+        printf("O tempo medio do ciclio = %d", 0);
+    }
+}
+
 void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl){
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
@@ -96,6 +109,8 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     pManager->tabela = criaTabela();
     pManager->cpu = criaCPU();
     pManager->time = 0;
+    pManager->timeProcessAbsolut = 0;
+    pManager->qtdProcessosExecuted = 0;
 
     //criar o primeiro processo simulado
     process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,-1);
@@ -118,13 +133,14 @@ void loopManager(manager *pManager){
 
         read(pManager->pipeControlToManager[0], command, sizeof(char));
         Debug("\t[Manager] Comando: %c\n", *command);
+
         if(*command == 'U'){
             executa(pManager);
         }
-        if(*command == 'L'){
+        else if(*command == 'L'){
             comandL(pManager);
         }
-        if(*command == 'I'){
+        else if(*command == 'I'){
 
             Debug("\t[Manager] Comando: %c | IMPRIMIR\n", *command);
 
@@ -159,6 +175,11 @@ void loopManager(manager *pManager){
         }
 
     } while (*command != 'M');
+
+    if(*command == 'M'){
+
+    }
+
     free(command);
     Debug("\tFIM Manager\n");
     exit(EXIT_SUCCESS);
@@ -219,7 +240,21 @@ void imprimeManager(manager *pManager){
 
     }
     else if(opcao == 4){
-
+        printf("\n************************************ Resumo do sistema *************************************\n");
+        printf("Total time used = %d | Total de processos prontos = %d | Total de processos bloqueados = %d\n",
+               pManager->time,pManager->processosProntos->fim,pManager->processosBloqueados->fim);
+        if(pManager->processoEmExecucao == -1) {
+            printf("\n***************************************\n");
+            printf("Nao ha processos atualmente em execucao");
+            printf("\n***************************************\n");
+        }
+        else {
+            printf("\n ||||||||||||||||||||| Processo em execucao ||||||||||||||||||||| \n");
+            printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
+            imprimeProcesso(&pManager->cpu->processoExecucao);
+            imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+            imprimeMem(&pManager->cpu->processoExecucao.memory);
+        }
     }
     else if(opcao == 5){
         int indice;
