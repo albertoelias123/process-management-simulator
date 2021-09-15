@@ -21,7 +21,7 @@ void inicializaProcess(process *processo, int pid, int ppid){
     processo->memory = *createMemory();
     processo->estado = bloqueado;
     processo->priority = 0;
-    processo->timeStart = 0;
+    processo->timeStart = -1;
     processo->timeCpuUsed = 0;
     processo->ppid = ppid;
     processo->pid = pid;
@@ -117,7 +117,7 @@ void processReader(process *processo, char *filename, int pid, int ppid){
 }
 
 void imprimeMem(memProcess *mem){
-    printf("\n||||||||||Memoria do processo ||||||||||\n");
+    printf("\n|||||||||| Memoria do processo em execucao ||||||||||\n");
     for(int i = 0;i<mem->qtd; i++){
         if(i + 1 < mem->qtd)
             printf("[%d]=%d | ", mem->position[i]->posicao, mem->position[i]->valor);
@@ -151,20 +151,29 @@ void imprimeTesteProcesso(process *processo){
 }
 
 void imprimeProcesso(process *processo){
-    printf("\n\t[%d]\t",processo->pid);
+    printf("| ");
+    printf("%-4d",processo->pid);// ID
+    printf(" | ");
     if(processo->estado == bloqueado){
-        printf("\t\tBloqueado\t");
+        printf("%-5s", "Bloq");
     }
     else if(processo->estado == execucao){
-        printf("\t\tEm execucao\t");
+        printf("%-5s", "Exec");
     }
     else if(processo->estado == pronto){
-        printf("\t\t  Pronto\t");
+        printf("%-5s", "Pron");
     }
-    printf("\t\t[%d] \t",processo->timeCpuUsed);
-    printf("\t\t\t\t [%d] \t",processo->qtdInstructions);
-    printf("\t\t\t\t\t[%d]\t",processo->timeStart);
-    printf("\t\t\t\t[%.2f %%] \t", (float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA);
+    printf(" | ");
+    printf("%-8d",processo->timeCpuUsed);// Time CPU
+    printf(" | ");
+    printf("%-9d",processo->qtdInstructions); // Instructions
+    printf(" | ");
+    printf("%-2d",processo->PC); // PC
+    printf(" | ");
+    printf("%-10d",processo->timeStart); // Time Start
+    printf(" | ");
+    printf("%-7.2f%%",(float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA); // Mem Used
+    printf(" | ");
 }
 
 

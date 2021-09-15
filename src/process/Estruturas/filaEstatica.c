@@ -44,7 +44,7 @@ int removeOfFila(Fila *fila){
         return inicio;
     }
     else{
-        printf("\nFila vazia\n");
+//        printf("\nFila vazia\n");
         return -1;
     }
 }

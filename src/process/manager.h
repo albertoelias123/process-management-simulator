@@ -16,11 +16,6 @@
 #define Debug(f_, ...)
 #endif
 
-typedef struct{
-    process processoExecucao;
-    int timeSlice;//fatia de tempo do processo em execução na CPU
-    int timeUsed; //tempo usado do timeSlice
-}CPU;
 
 typedef struct{
     int *pipeControlToManager;
@@ -29,9 +24,9 @@ typedef struct{
 
     int time;
     TabelaDeProcessos *tabela;
-    Fila *estadoPronto;
-    Fila *estadoBloqueado;
-    int estadoExecucao;
+    Fila *processosProntos;
+    Fila *processosBloqueados;
+    int processoEmExecucao;
     CPU *cpu;
 
     int pidAutoIncrement;
@@ -40,7 +35,7 @@ typedef struct{
 void loopManager(manager *pManager);
 void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl);
 void comandL(manager *pManager);
-void comandU(manager *pManager);
+void executa(manager *pManager);
 void timeIncrement(manager *pManager);
 void imprimeManager(manager *pManager); // fazer os imprime tudo
 

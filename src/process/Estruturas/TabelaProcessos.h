@@ -15,7 +15,8 @@ typedef struct{
 
 TabelaDeProcessos* criaTabela();
 int insereOnTabela(TabelaDeProcessos *tabela,process *entrada);
-void alteraEstado(TabelaDeProcessos *tabela,int indice);
+void alteraEstadoParaPronto(TabelaDeProcessos *tabela, int indice);
+void alteraEstadoParaExecucao(TabelaDeProcessos *tabela, int indice);
 void removeOfTabela(TabelaDeProcessos *tabela,int pidProcess);
 void imprimeTabela(TabelaDeProcessos *tabela);
 
