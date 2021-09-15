@@ -10,7 +10,8 @@ process *criaProcesso(char *fileName,int pid,int ppid){
     char *newStr = (char*) malloc((strlen(fileName)+10)*sizeof(char));
     strcpy(newStr,fileName);
     strcat(newStr,".txt");
-    processReader(process1,newStr,pid,ppid);
+    inicializaProcess(process1,pid,ppid);
+    processReader(process1,newStr);
     return process1;
 
 }
@@ -26,15 +27,13 @@ void inicializaProcess(process *processo, int pid, int ppid){
     processo->ppid = ppid;
     processo->pid = pid;
 }
-void processReader(process *processo, char *filename, int pid, int ppid){
+void processReader(process *processo, char *filename){
     int PC = 0, index, numVar, declaration, value;
     char fileN[20];
 //    /*leitura de arquivo*/
-
-    inicializaProcess(processo, pid, ppid);
-
     FILE *fl;
-
+    processo->PC = 0;
+    processo->qtdInstructions = 0;
     char *buf = (char*)malloc(sizeof(char));
     fl = fopen(filename,"r");
     if ( fl == NULL){
@@ -126,28 +125,31 @@ void imprimeMem(memProcess *mem){
     }
 }
 
-void imprimeTesteProcesso(process *processo){
+void imprimeInstrucoesProcesso(process *processo){
+    printf("\n");
     for(int i = 0;i<processo->qtdInstructions;i++){
         if(processo->vetorPrograma[i].comando == 'N'){
-            printf("N: %d\n",processo->vetorPrograma[i].N.valor);
+            printf("N:%d -> ",processo->vetorPrograma[i].N.valor);
         }
-        if(processo->vetorPrograma[i].comando == 'D'){
-            printf("D: %d\n",processo->vetorPrograma[i].D.refMem);
+        else if(processo->vetorPrograma[i].comando == 'D'){
+            printf("D:%d -> ",processo->vetorPrograma[i].D.refMem);
         }
-        if(processo->vetorPrograma[i].comando == 'V' || processo->vetorPrograma[i].comando == 'A' || processo->vetorPrograma[i].comando == 'S'){
-            printf("%c: %d %d\n",processo->vetorPrograma[i].comando,processo->vetorPrograma[i].operation.valores.refMem,processo->vetorPrograma[i].operation.valores.valor);
+        else if(processo->vetorPrograma[i].comando == 'V' || processo->vetorPrograma[i].comando == 'A' || processo->vetorPrograma[i].comando == 'S'){
+            printf("%c:%d %d -> ",processo->vetorPrograma[i].comando,processo->vetorPrograma[i].operation.valores.refMem,processo->vetorPrograma[i].operation.valores.valor);
         }
-        if(processo->vetorPrograma[i].comando == 'F'){
-            printf("F: %d\n",processo->vetorPrograma[i].F.valor);
+        else if(processo->vetorPrograma[i].comando == 'F'){
+            printf("F:%d -> ",processo->vetorPrograma[i].F.valor);
         }
-        if(processo->vetorPrograma[i].comando == 'R'){
-            printf("R: %s\n",processo->vetorPrograma[i].R.file);
+        else if(processo->vetorPrograma[i].comando == 'R'){
+            printf("R:%s -> ",processo->vetorPrograma[i].R.file);
         }
-        if(processo->vetorPrograma[i].comando == 'T'){
-            printf("Comando de terminar o processo");
+        else if(processo->vetorPrograma[i].comando == 'T'){
+            printf("T -> ");
         }
+        else if(processo->vetorPrograma[i].comando == 'B')
+            printf("B -> ");
     }
-    imprimeMem(&processo->memory);
+    printf("\n");
 }
 
 void imprimeProcesso(process *processo){
@@ -176,6 +178,8 @@ void imprimeProcesso(process *processo){
     printf(" | ");
     printf("%-7.2f%%",(float)(processo->memory.qtd * 100) / TAM_VETOR_MEMORIA); // Mem Used
     printf(" | ");
+    printf("%-4d",processo->priority);
+    printf(" |");
 }
 
 

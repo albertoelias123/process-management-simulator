@@ -11,6 +11,7 @@ void dispatcher(manager *pManager, int indexPtoCPU){//troca de contexo
     pManager->cpu->processoExecucao = *pManager->tabela->processos[indexPtoCPU];//index processo q vai para a cpu
     int exp = pManager->cpu->processoExecucao.priority;
     pManager->cpu->timeSlice = pow(2,(exp));
+    pManager->cpu->timeUsed = 0;
     if(pManager->cpu->processoExecucao.timeStart == -1){
         pManager->cpu->processoExecucao.timeStart = pManager->time;
     }
