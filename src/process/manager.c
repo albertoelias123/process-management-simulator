@@ -7,7 +7,7 @@
 
 void executa(manager *pManager){
     //prioritySchedulling(pManager);
-    nonPreemptiveSchedulling(pManager);// realiza escalonamento
+    schedulling(pManager);// realiza escalonamento
     if(pManager->processoEmExecucao != -1) {
 
         char *command = (char *) malloc(sizeof(char));
@@ -49,7 +49,7 @@ void executa(manager *pManager){
             pManager->cpu->processoExecucao.timeCpuUsed++;
             pManager->cpu->processoExecucao.estado = bloqueado;
             pManager->cpu->processoExecucao.PC++;
-            nonPreemptiveSchedulling(pManager);// realiza escalonamento
+            schedulling(pManager);// realiza escalonamento
         } else if (*command == 'F') {
 
             process *newProcessSimulated = (process*) malloc(sizeof (process));
@@ -235,8 +235,8 @@ void imprimeManager(manager *pManager){
         printf("\t");
         imprimeFila(pManager->processosBloqueados);
         printf("\n||||||||||||||||||||| indices processos prontos ||||||||||||||||||||| \n");
-        printf("\t");
         imprimeFila(pManager->processosProntos);
+        printf("\n");
 
     }
     else if(opcao == 4){

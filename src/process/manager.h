@@ -29,6 +29,7 @@ typedef struct{
     int processoEmExecucao;
     CPU *cpu;
 
+    char *schedullingPolitics;
     int timeProcessAbsolut;
     int pidAutoIncrement;
 }manager;
