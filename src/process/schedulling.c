@@ -74,16 +74,12 @@ void fifoSchedulling(manager *pManager){
         }
 
     if(!filaEVazia(pManager->processosProntos)){
-
-        int nextProcess = removeOfFila(pManager->processosProntos);
+        
         if(pManager->processoEmExecucao == -1 ) { // nenhum processo em execução
+            int nextProcess = removeOfFila(pManager->processosProntos);
             dispatcher(pManager, nextProcess);
         }
-        else{ // temos um processo em execução
-            pManager->cpu->processoExecucao.estado = pronto;
-            insereOnFila(pManager->processosProntos, pManager->processoEmExecucao);
-            dispatcher(pManager, nextProcess); //troca de contexto
-        }
+
     }
 }
 
