@@ -54,11 +54,12 @@ char* commandInteractive(){
     fflush(stdin);
     scanf(" %c",comando);
 
-    if (comando = ('U' || 'L' || 'I' || 'M')){
+    if ((*comando == 'U') || (*comando == 'L') || (*comando == 'I') || (*comando == 'M')){
         return comando;
     }else{
-        return (fprintf(syserr, ))
-    }
+        fprintf(stderr, "Comando incorreto!\n");
+        commandInteractive();
+        }
 
 
     
@@ -69,6 +70,7 @@ char* commandsFromFile(){
     char *nameArq = (char*) malloc(50*sizeof(char ));
     printf("\nDigite o nome do arquivo de entrada:");
     scanf("%s",nameArq);
+    strcat(nameArq,".txt");
     file = fopen(nameArq,"r");
     if(file == NULL){
         printf("\n----Arquivo inexistente----\n");
