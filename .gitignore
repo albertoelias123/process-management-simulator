@@ -6,3 +6,5 @@
 /cmake-build-debug/estruturas
 /cmake-build-debug/estruturas.cbp
 .vscode/settings.json
+cmake-build-debug/processManager.cbp
+cmake-build-debug/processManager
