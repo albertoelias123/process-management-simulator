@@ -6,6 +6,8 @@
 #define ESTRUTURAS_FILAESTATICA_H
 
 #define MAXTAM 1000
+#define TRUE 1
+#define FALSE 0
 
 typedef struct{
     int fim;
