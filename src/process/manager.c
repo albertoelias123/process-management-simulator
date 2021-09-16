@@ -105,11 +105,11 @@ void comandL(manager *pManager)
 
 void averageTime(manager *pManager)
 {
-    printf("\n*************************************\n");
-    printf("\tTempo Medio de execucao na CPU = %.2f UT\n", (float)pManager->timeProcessAbsolut / (float)pManager->pidAutoIncrement);
-    printf("\tTempo Medio de Ciclo = %.3f\n", (float)pManager->timeCicles / (float)pManager->qtdCicle);
-    printf("\tTotal Time Cicles=%d | qtdCicle=%d\n", pManager->timeCicles, pManager->qtdCicle);
-    printf("*************************************\n");
+    printf("\n********************************************\n");
+    printf("  Tempo Medio de execucao na CPU = %.2f UT\n", (float)pManager->timeProcessAbsolut / (float)pManager->pidAutoIncrement);
+    printf("  Tempo Medio de Ciclo = %.3f\n", (float)pManager->timeCicles / (float)pManager->qtdCicle);
+    printf("  Total Time Cicles=%d | qtdCicle=%d\n", pManager->timeCicles, pManager->qtdCicle);
+    printf("********************************************\n");
 }
 
 void setupManager(manager *pManager, int *pipeControlToManager, int *pipeManagerToControl)
