@@ -95,6 +95,7 @@ void insereOnMemory(memProcess *mem,int valor,int posicao);
 void imprimeMem(memProcess *mem);
 void processReader(process *processo, char *filename);
 void imprimeInstrucoesProcesso(process *processo);
+void imprimeInstrucoesProcessoMarca(process *processo, int marcar);
 void imprimeProcesso(process *processo);
 process *criaProcesso(char *fileName,int pid,int ppid);
 

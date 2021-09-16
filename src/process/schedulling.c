@@ -38,6 +38,7 @@ void prioritySchedulling(manager *pManager){
                     pManager->cpu->processoExecucao.priority--;
             *pManager->tabela->processos[pManager->processoEmExecucao] = pManager->cpu->processoExecucao;
             pManager->processoEmExecucao = -1;
+            pManager->qtdCicle++;
         }
 
     if(!filaEVazia(pManager->processosProntos)){
@@ -48,6 +49,8 @@ void prioritySchedulling(manager *pManager){
         }
         else{ // temos um processo em execução
             if (pManager->cpu->timeUsed >= pManager->cpu->timeSlice){ //processo chegou no limite de uso
+                pManager->timeCicles += pManager->cpu->timeUsed; 
+                pManager->qtdCicle++;
                 pManager->cpu->processoExecucao.estado = pronto;
                 insereOnFila(pManager->processosProntos, pManager->processoEmExecucao);
 

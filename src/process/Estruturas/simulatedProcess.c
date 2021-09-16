@@ -127,27 +127,62 @@ void imprimeMem(memProcess *mem){
 
 void imprimeInstrucoesProcesso(process *processo){
     printf("\n");
-    for(int i = 0;i<processo->qtdInstructions;i++){
+    for(int i = 0;i < processo->qtdInstructions;i++){
         if(processo->vetorPrograma[i].comando == 'N'){
-            printf("N:%d -> ",processo->vetorPrograma[i].N.valor);
+            printf("N:%d",processo->vetorPrograma[i].N.valor);
         }
         else if(processo->vetorPrograma[i].comando == 'D'){
-            printf("D:%d -> ",processo->vetorPrograma[i].D.refMem);
+            printf("D:%d",processo->vetorPrograma[i].D.refMem);
         }
         else if(processo->vetorPrograma[i].comando == 'V' || processo->vetorPrograma[i].comando == 'A' || processo->vetorPrograma[i].comando == 'S'){
-            printf("%c:%d %d -> ",processo->vetorPrograma[i].comando,processo->vetorPrograma[i].operation.valores.refMem,processo->vetorPrograma[i].operation.valores.valor);
+            printf("%c:%d %d",processo->vetorPrograma[i].comando,processo->vetorPrograma[i].operation.valores.refMem,processo->vetorPrograma[i].operation.valores.valor);
         }
         else if(processo->vetorPrograma[i].comando == 'F'){
-            printf("F:%d -> ",processo->vetorPrograma[i].F.valor);
+            printf("F:%d",processo->vetorPrograma[i].F.valor);
         }
         else if(processo->vetorPrograma[i].comando == 'R'){
-            printf("R:%s -> ",processo->vetorPrograma[i].R.file);
+            printf("R:%s",processo->vetorPrograma[i].R.file);
         }
         else if(processo->vetorPrograma[i].comando == 'T'){
-            printf("T -> ");
+            printf("T");
         }
         else if(processo->vetorPrograma[i].comando == 'B')
-            printf("B -> ");
+            printf("B");
+        if(i+1 < processo->qtdInstructions)
+            printf("  ->  ");
+    }
+    printf("\n");
+}
+
+void imprimeInstrucoesProcessoMarca(process *processo, int marcar){
+    printf("\n");
+    for(int i = 0;i < processo->qtdInstructions;i++){
+        if(i == marcar)
+            printf("**--");
+        if(processo->vetorPrograma[i].comando == 'N'){
+            printf("N:%d",processo->vetorPrograma[i].N.valor);
+        }
+        else if(processo->vetorPrograma[i].comando == 'D'){
+            printf("D:%d",processo->vetorPrograma[i].D.refMem);
+        }
+        else if(processo->vetorPrograma[i].comando == 'V' || processo->vetorPrograma[i].comando == 'A' || processo->vetorPrograma[i].comando == 'S'){
+            printf("%c:%d %d",processo->vetorPrograma[i].comando,processo->vetorPrograma[i].operation.valores.refMem,processo->vetorPrograma[i].operation.valores.valor);
+        }
+        else if(processo->vetorPrograma[i].comando == 'F'){
+            printf("F:%d",processo->vetorPrograma[i].F.valor);
+        }
+        else if(processo->vetorPrograma[i].comando == 'R'){
+            printf("R:%s",processo->vetorPrograma[i].R.file);
+        }
+        else if(processo->vetorPrograma[i].comando == 'T'){
+            printf("T");
+        }
+        else if(processo->vetorPrograma[i].comando == 'B')
+            printf("B");
+        if(i == marcar)
+            printf("--**");
+        if(i+1 < processo->qtdInstructions)
+            printf("  ->  ");
     }
     printf("\n");
 }

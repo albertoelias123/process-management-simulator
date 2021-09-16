@@ -5,54 +5,71 @@
 #include "manager.h"
 #include "schedulling.h"
 
-void executa(manager *pManager){
+void executa(manager *pManager)
+{
     //prioritySchedulling(pManager);
-    schedulling(pManager);// realiza escalonamento
-    if(pManager->processoEmExecucao != -1) {
+    schedulling(pManager); // realiza escalonamento
+    if (pManager->processoEmExecucao != -1)
+    {
 
-        char *command = (char *) malloc(sizeof(char));
+        char *command = (char *)malloc(sizeof(char));
         *command = pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].comando;
 
-        if (*command == 'N') {
+        if (*command == 'N')
+        {
             pManager->cpu->processoExecucao.PC++;
             pManager->cpu->processoExecucao.timeCpuUsed++;
         }
-        if (*command == 'V') {
-            for (int i = 0; i < pManager->cpu->processoExecucao.memory.qtd; i++) {
+        if (*command == 'V')
+        {
+            for (int i = 0; i < pManager->cpu->processoExecucao.memory.qtd; i++)
+            {
                 if (pManager->cpu->processoExecucao.memory.position[i]->posicao ==
-                    pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].operation.valores.refMem) {
+                    pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].operation.valores.refMem)
+                {
                     pManager->cpu->processoExecucao.memory.position[i]->valor =
-                            pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].operation.valores.valor;
+                        pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].operation.valores.valor;
                 }
             }
             pManager->cpu->processoExecucao.PC++;
             pManager->cpu->processoExecucao.timeCpuUsed++;
-        } else if (*command == 'A') {
+        }
+        else if (*command == 'A')
+        {
             sum(&pManager->cpu->processoExecucao);
             pManager->cpu->processoExecucao.PC++;
             pManager->cpu->processoExecucao.timeCpuUsed++;
-        } else if (*command == 'S') {
+        }
+        else if (*command == 'S')
+        {
             sub(&pManager->cpu->processoExecucao);
             pManager->cpu->processoExecucao.PC++;
             pManager->cpu->processoExecucao.timeCpuUsed++;
-        } else if (*command == 'D') {
+        }
+        else if (*command == 'D')
+        {
             insereOnMemory(&pManager->cpu->processoExecucao.memory, 0,
                            pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].D.refMem);
             pManager->cpu->processoExecucao.PC++;
             pManager->cpu->processoExecucao.timeCpuUsed++;
-        } else if (*command == 'R') {
-            processReader(&pManager->cpu->processoExecucao,pManager->cpu->processoExecucao.vetorPrograma[
-                    pManager->cpu->processoExecucao.PC].R.file);
+        }
+        else if (*command == 'R')
+        {
+            processReader(&pManager->cpu->processoExecucao, pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].R.file);
             pManager->cpu->processoExecucao.timeCpuUsed++;
-        } else if (*command == 'B') { // implementação da politica de escalonamento
+        }
+        else if (*command == 'B')
+        { // implementação da politica de escalonamento
             //movendo o processo atualmente em execução para bloqueado
             pManager->cpu->processoExecucao.timeCpuUsed++;
             pManager->cpu->processoExecucao.estado = bloqueado;
             pManager->cpu->processoExecucao.PC++;
-            schedulling(pManager);// realiza escalonamento
-        } else if (*command == 'F') {
+            schedulling(pManager); // realiza escalonamento
+        }
+        else if (*command == 'F')
+        {
 
-            process *newProcessSimulated = (process*) malloc(sizeof (process));
+            process *newProcessSimulated = (process *)malloc(sizeof(process));
             *newProcessSimulated = pManager->cpu->processoExecucao;
             newProcessSimulated->estado = pronto;
             newProcessSimulated->timeStart = -1;
@@ -63,18 +80,15 @@ void executa(manager *pManager){
 
             insereOnFila(pManager->processosProntos, insereOnTabela(pManager->tabela, newProcessSimulated));
             pManager->cpu->processoExecucao.PC +=
-                    pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].F.valor + 1;
+                pManager->cpu->processoExecucao.vetorPrograma[pManager->cpu->processoExecucao.PC].F.valor + 1;
             pManager->cpu->processoExecucao.timeCpuUsed++;
-
-        } else if (*command == 'T') {
-            // SALVAR TEMPO DE EXECUCAO PARA CALCULAR TEMPO MEDIO
-            // FAZER CODIGO AQUI
-
-
-            pManager->timeProcessAbsolut += pManager->cpu->processoExecucao.timeCpuUsed;
-            free(pManager->tabela->processos[pManager->processoEmExecucao]);
-            pManager->tabela->processos[pManager->processoEmExecucao] = NULL;
-            pManager->tabela->qtd--;
+        }
+        else if (*command == 'T')
+        {
+            pManager->timeProcessAbsolut += pManager->cpu->processoExecucao.timeCpuUsed + 1;
+            pManager->qtdCicle++;
+            pManager->timeCicles += pManager->cpu->timeUsed + 1;
+            removeOfTabela(pManager->tabela, pManager->processoEmExecucao);
             pManager->processoEmExecucao = -1;
         }
     }
@@ -82,26 +96,24 @@ void executa(manager *pManager){
     pManager->time++;
 }
 
-
-
-void comandL(manager *pManager){
+void comandL(manager *pManager)
+{
     int indice = removeOfFila(pManager->processosBloqueados);
     insereOnFila(pManager->processosProntos, indice);
     alteraEstadoParaPronto(pManager->tabela, indice);
 }
 
-void averageTime(manager *pManager){
+void averageTime(manager *pManager)
+{
     printf("\n*************************************\n");
-    if(pManager->pidAutoIncrement > 0) {
-        printf("Tempo medio do ciclio = %.2f UT",(float)pManager->timeProcessAbsolut / (float)pManager->pidAutoIncrement);
-    }
-    else{
-        printf("Tempo medio do ciclio = %d", 0);
-    }
-    printf("\n*************************************\n");
+    printf("\tTempo Medio de execucao na CPU = %.2f UT\n", (float)pManager->timeProcessAbsolut / (float)pManager->pidAutoIncrement);
+    printf("\tTempo Medio de Ciclo = %.3f\n", (float)pManager->timeCicles / (float)pManager->qtdCicle);
+    printf("\tTotal Time Cicles=%d | qtdCicle=%d\n", pManager->timeCicles, pManager->qtdCicle);
+    printf("*************************************\n");
 }
 
-void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManagerToControl){
+void setupManager(manager *pManager, int *pipeControlToManager, int *pipeManagerToControl)
+{
     //inicialização do processo gerenciador de processos
     pManager->pidAutoIncrement = 0;
     pManager->processosBloqueados = criaFila();
@@ -111,9 +123,11 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     pManager->cpu = criaCPU();
     pManager->time = 0;
     pManager->timeProcessAbsolut = 0;
+    pManager->timeCicles = 0;
+    pManager->qtdCicle = 0;
 
     //criar o primeiro processo simulado
-    process *processo0 = criaProcesso("processo0",pManager->pidAutoIncrement++,-1);
+    process *processo0 = criaProcesso("processo0", pManager->pidAutoIncrement++, -1);
 
     insereOnFila(pManager->processosBloqueados, insereOnTabela(pManager->tabela, processo0));
 
@@ -123,10 +137,12 @@ void setupManager(manager* pManager, int *pipeControlToManager, int* pipeManager
     Debug("PID Manager = %d\n", pManager->PID);
 }
 
-void loopManager(manager *pManager){
+void loopManager(manager *pManager)
+{
     Debug("\tComeço Manager\n");
-    char *command = (char*) malloc(sizeof (char));
-    do{
+    char *command = (char *)malloc(sizeof(char));
+    do
+    {
         Debug("\tLoop Manager\n");
         close(pManager->pipeControlToManager[1]); // Quer Ler
         close(pManager->pipeManagerToControl[0]); // Quer Escrever
@@ -134,31 +150,36 @@ void loopManager(manager *pManager){
         read(pManager->pipeControlToManager[0], command, sizeof(char));
         Debug("\t[Manager] Comando: %c\n", *command);
 
-        if(*command == 'U'){
+        if (*command == 'U')
+        {
             executa(pManager);
         }
-        else if(*command == 'L'){
+        else if (*command == 'L')
+        {
             comandL(pManager);
         }
-        else if(*command == 'I'){
+        else if (*command == 'I')
+        {
 
             Debug("\t[Manager] Comando: %c | IMPRIMIR\n", *command);
 
             pid_t pidImpress;
-            if((pidImpress = fork()) < 0){
+            if ((pidImpress = fork()) < 0)
+            {
                 perror("fork");
                 exit(EXIT_FAILURE);
             }
-            if(pidImpress > 0){
+            if (pidImpress > 0)
+            {
                 //Manager
 
                 Debug("\t[Manage] Aguarda processo impress\n");
                 //Aguarda a finalização do Processo Impressão
                 wait(NULL);
                 Debug("\t[Manage] FIM\n");
-
             }
-            else{
+            else
+            {
 
                 //Impress
                 Debug("\t\t[Impress] Inicio\n");
@@ -166,17 +187,15 @@ void loopManager(manager *pManager){
                 Debug("\t\t[Impress] SLEEP(5)\n");
                 Debug("\t\t[Impress] FIM\n");
                 exit(EXIT_SUCCESS);
-
             }
 
-
             write(pManager->pipeManagerToControl[1], "S", sizeof(char));
-
         }
 
     } while (*command != 'M');
 
-    if(*command == 'M'){
+    if (*command == 'M')
+    {
         averageTime(pManager);
     }
 
@@ -185,7 +204,8 @@ void loopManager(manager *pManager){
     exit(EXIT_SUCCESS);
 }
 
-void imprimeManager(manager *pManager){
+void imprimeManager(manager *pManager)
+{
     int opcao;
     printf("\n|||||||||||||||||||||||||||||||||||| Deseja imprimir quais informacoes do sistema ||||||||||||||||||||||||||||||||||||\n");
     printf("1- Imprimrir processo em execucao\n");
@@ -194,40 +214,48 @@ void imprimeManager(manager *pManager){
     printf("4- Imprimir resumo do sistema\n");
     printf("5- Imprimir processo da tabela de processos\n");
     printf("opcao: ");
-    scanf("%d",&opcao);
+    scanf("%d", &opcao);
     printf("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-    if(opcao == 1 ){
-        if(pManager->processoEmExecucao == -1) {
+    system("clear");
+    if (opcao == 1)
+    {
+        if (pManager->processoEmExecucao == -1)
+        {
             printf("\n***************************************\n");
             printf("Nao ha processos atualmente em execucao");
             printf("\n***************************************\n");
         }
-        else{
+        else
+        {
             printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
             imprimeProcesso(&pManager->cpu->processoExecucao);
-            imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+            imprimeInstrucoesProcessoMarca(&pManager->cpu->processoExecucao, pManager->cpu->processoExecucao.PC);
             imprimeMem(&pManager->tabela->processos[pManager->processoEmExecucao]->memory);
         }
     }
-    else if(opcao == 2){
+    else if (opcao == 2)
+    {
         imprimeTabela(pManager->tabela);
     }
-    else if(opcao == 3) {
+    else if (opcao == 3)
+    {
         printf("\n[Sistema]\n");
-        printf("Total time used: %d | pidAutoincrement %d\n", pManager->time,pManager->pidAutoIncrement);
-        if(pManager->processoEmExecucao == -1) {
+        printf("Total time used: %d | pidAutoincrement %d\n", pManager->time, pManager->pidAutoIncrement);
+        if (pManager->processoEmExecucao == -1)
+        {
             printf("\n|||||||||||||||||||||||||||||||||| CPU |||||||||||||||||||||||||||||||||||||||\n");
-            printf("Time Lapse = %d",pManager->cpu->timeUsed);
+            printf("Time Lapse = %d", pManager->cpu->timeUsed);
             printf("\n***************************************\n");
             printf("Nao ha processos atualmente em execucao");
             printf("\n***************************************\n");
         }
-        else{
+        else
+        {
             printCPU(pManager->cpu);
             printf("\n ||||||||||||||||||||| Processo em execucao ||||||||||||||||||||| \n");
             printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
             imprimeProcesso(&pManager->cpu->processoExecucao);
-            imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+            imprimeInstrucoesProcessoMarca(&pManager->cpu->processoExecucao, pManager->cpu->processoExecucao.PC);
             imprimeMem(&pManager->cpu->processoExecucao.memory);
         }
         imprimeTabela(pManager->tabela);
@@ -237,33 +265,37 @@ void imprimeManager(manager *pManager){
         printf("\n||||||||||||||||||||| indices processos prontos ||||||||||||||||||||| \n");
         imprimeFila(pManager->processosProntos);
         printf("\n");
-
     }
-    else if(opcao == 4){
+    else if (opcao == 4)
+    {
         printf("\n************************************ Resumo do sistema *************************************\n");
         printf("Total time used = %d | Total de processos prontos = %d | Total de processos bloqueados = %d\n",
-               pManager->time,pManager->processosProntos->fim,pManager->processosBloqueados->fim);
-        if(pManager->processoEmExecucao == -1) {
+               pManager->time, pManager->processosProntos->fim, pManager->processosBloqueados->fim);
+        printf("TimeCicles=%.2f | qtdCicle=%.2f\n", (float)pManager->timeCicles, (float)pManager->qtdCicle);
+        if (pManager->processoEmExecucao == -1)
+        {
             printf("\n***************************************\n");
             printf("Nao ha processos atualmente em execucao");
             printf("\n***************************************\n");
         }
-        else {
+        else
+        {
             printf("\n ||||||||||||||||||||| Processo em execucao ||||||||||||||||||||| \n");
             printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
             imprimeProcesso(&pManager->cpu->processoExecucao);
-            imprimeInstrucoesProcesso(&pManager->cpu->processoExecucao);
+            imprimeInstrucoesProcessoMarca(&pManager->cpu->processoExecucao, pManager->cpu->processoExecucao.PC);
             imprimeMem(&pManager->cpu->processoExecucao.memory);
         }
     }
-    else if(opcao == 5){
+    else if (opcao == 5)
+    {
         int indice;
         printf("\nEntre com um indice da tabela: ");
-        scanf("%d",&indice);
-        printf("\n ||||||||||||||||||||| Processo %d da tabela de processos ||||||||||||||||||||| \n",indice);
+        scanf("%d", &indice);
+        printf("\n ||||||||||||||||||||| Processo %d da tabela de processos ||||||||||||||||||||| \n", indice);
         printf("| Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
         imprimeProcesso(pManager->tabela->processos[indice]);
-        imprimeInstrucoesProcesso(pManager->tabela->processos[indice]);
+        imprimeInstrucoesProcessoMarca(pManager->tabela->processos[indice], pManager->tabela->processos[indice]->PC);
         imprimeMem(&pManager->tabela->processos[indice]->memory);
     }
 }

@@ -36,9 +36,11 @@ void imprimeTabela(TabelaDeProcessos *tabela){
     printf("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| Tabela de processos ||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
     printf("| Indice | Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
     for(int i = 0;i<tabela->qtd;i++){
-        printf("| %-6d ",i);
-        imprimeProcesso(tabela->processos[i]);
-        printf("\n");
+        if(tabela->processos[i] != NULL){
+            printf("| %-6d ",i);
+            imprimeProcesso(tabela->processos[i]);
+            printf("\n");
+        }
     }
 }
 int isTabelaEmpty(TabelaDeProcessos *tabela){
@@ -67,15 +69,9 @@ int insereOnTabela(TabelaDeProcessos *tabela,process *entrada){
         return -1;
     }
 }
-void removeOfTabela(TabelaDeProcessos *tabela,int pidProcess){//conferir depois a ideia
+void removeOfTabela(TabelaDeProcessos *tabela, int indice){//conferir depois a ideia
     if(tabela->qtd > 0){
-        for(int i = 0;i<tabela->qtd;i++){
-            if(tabela->processos[i]->pid == pidProcess){
-                free(tabela->processos[i]);
-                tabela->processos[i] = NULL;
-                tabela->qtd--;
-            }
-
-        }
+        free(tabela->processos[indice]);
+        tabela->processos[indice] = NULL;
     }
 }

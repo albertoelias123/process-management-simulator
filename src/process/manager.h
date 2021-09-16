@@ -32,6 +32,9 @@ typedef struct{
     char schedullingPolitics[2];
     int timeProcessAbsolut;
     int pidAutoIncrement;
+
+    int timeCicles;
+    int qtdCicle;
 }manager;
 
 void loopManager(manager *pManager);
