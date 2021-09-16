@@ -132,8 +132,6 @@ void loopControl(control* pcontrol){
 
         }
         free(commands);
-        if(*(pcontrol->command) == 'Y')
-            loopControl(pcontrol);
     }
 
     /*

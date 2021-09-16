@@ -4,8 +4,8 @@
 
 #ifndef ESTRUTURAS_FILAESTATICA_H
 #define ESTRUTURAS_FILAESTATICA_H
-#include "pilhaEstatica.h"
 
+#define MAXTAM 1000
 
 typedef struct{
     int fim;
