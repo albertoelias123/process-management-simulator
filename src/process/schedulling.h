@@ -6,7 +6,7 @@
 
 
 void dispatcher(manager *pManager, int indexPtoCPU);
-void schedulling(manager *pManager);
 void prioritySchedulling(manager *pManager);
 void fifoSchedulling(manager *pManager);
 void processSort(manager *pManager);
+void schedulling(manager *pManager);

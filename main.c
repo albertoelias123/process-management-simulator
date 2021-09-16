@@ -3,9 +3,8 @@
 int main(int argc, char *argv[]){
     pid_t pidMain;
     control pControl;
-    manager pManager;    
-    strcpy(pManager.schedullingPolitics,argv[1]); //escolha da politica de escalonamento    
-
+    manager pManager;
+    strcpy(pManager.schedullingPolitics,argv[1]); //escolha da politica de escalonamento
 
     if(strcmp(pManager.schedullingPolitics, "P") == 0)
         printf("Politica de Prioridade\n");
