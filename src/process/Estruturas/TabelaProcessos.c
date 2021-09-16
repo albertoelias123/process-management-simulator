@@ -33,15 +33,17 @@ void alteraEstadoParaExecucao(TabelaDeProcessos *tabela, int indice){
     }
 }
 void imprimeTabela(TabelaDeProcessos *tabela){
-    printf("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| Tabela de processos ||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
+    printf("\n||||||||||||||||||||||||||||||| Tabela de processos  |||||||||||||||||||||||||||||||||||||\n");
     printf("| Indice | Pid | Ppid | State | Time CPU | instructs | PC | Time start | Mem used | Prio |\n");
     for(int i = 0;i<tabela->qtd;i++){
         if(tabela->processos[i] != NULL){
             printf("| %-6d ",i);
             imprimeProcesso(tabela->processos[i]);
-            printf("\n");
+            if(i+1 < tabela->qtd)
+                printf("\n");
         }
     }
+    printf("\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
 }
 int isTabelaEmpty(TabelaDeProcessos *tabela){
     if(tabela->processos[0] == NULL){

@@ -41,7 +41,7 @@ int choiceMode(){
 }
 
 char* commandInteractive(){
-    printf("--------------------------------------------------------\n");
+    printf("\n--------------------------------------------------------\n");
     printf("|||||| Existem 4 tipos de comandos |||||||\n"
            "U: Fim de uma unidade de tempo\n"
            "L: Desbloqueia o primeiro processo simulado na fila bloqueada\n"
